@@ -5,6 +5,8 @@ import 'package:mib/db/table/entity/app_config_entity.dart';
 import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/exception/exception_type.dart';
 import 'package:mib/net/api_service.dart';
+import 'package:mib/net/http_config.dart';
+import 'package:mib/net/http_service.dart';
 import 'package:mib/route/page_builder.dart';
 import 'package:mib/synchronization/sync/sync_type.dart';
 import 'package:mib/synchronization/sync_manager.dart';
@@ -49,6 +51,30 @@ class LoginPresenter extends EventNotifier<LoginEvent> {
 
   Future initData() async {
     await fillAppConfigEntity();
+    initUrlConfig();
+  }
+
+
+  void initUrlConfig() {
+    if(appConfigEntity != null){
+
+      switch(appConfigEntity.env){
+        case UrlDev.ENV:
+          HttpConfig.urlConfig = UrlConfig.DEV;
+          break;
+        case UrlQas.ENV:
+          HttpConfig.urlConfig = UrlConfig.QAS;
+          break;
+        case UrlUat.ENV:
+          HttpConfig.urlConfig = UrlConfig.UAT;
+          break;
+        case UrlPrd.ENV:
+          HttpConfig.urlConfig = UrlConfig.PRD;
+          break;
+      }
+
+      HttpService().resetConfigDio();
+    }
   }
 
   Future fillAppConfigEntity() async {

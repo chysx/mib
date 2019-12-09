@@ -1,7 +1,9 @@
 import 'package:mib/application.dart';
+import 'package:mib/business/product_util.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/constant.dart';
 import 'package:mib/db/manager/visit_manager.dart';
+import 'package:mib/db/table/entity/dsd_t_delivery_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_item_entity.dart';
 import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/model/base_product_info.dart';
@@ -21,6 +23,7 @@ enum DeliverySummaryEvent {
 }
 
 class DeliverySummaryPresenter extends EventNotifier<DeliverySummaryEvent> {
+  DSD_T_DeliveryHeader_Entity deliveryHeader;
   List<BaseProductInfo> productList = [];
   List<BaseProductInfo> emptyProductList = [];
   String deliveryNo;
@@ -55,6 +58,7 @@ class DeliverySummaryPresenter extends EventNotifier<DeliverySummaryEvent> {
       await DeliveryModel().initData(deliveryNo);
     }
     await fillProductData();
+    fillProductPrice();
     await fillEmptyProductData();
   }
 
@@ -62,24 +66,12 @@ class DeliverySummaryPresenter extends EventNotifier<DeliverySummaryEvent> {
     productList.clear();
 
     List<DSD_T_DeliveryItem_Entity> tList = DeliveryModel().deliveryItemList;
+    productList.addAll(await ProductUtil.mergeTProduct(tList, true, true));
+  }
 
-    for (DSD_T_DeliveryItem_Entity tItem in tList) {
-      if(tItem.IsReturn == IsReturn.TRUE) continue;
-      if (int.tryParse(tItem.ActualQty) == 0) continue;
-
-      BaseProductInfo info = new BaseProductInfo();
-      info.code = tItem.ProductCode;
-      info.name = (await Application.productMap)[tItem.ProductCode];
-      if (tItem.ProductUnit == ProductUnit.CS) {
-        info.plannedCs = int.tryParse(tItem.PlanQty);
-        info.actualCs = int.tryParse(tItem.ActualQty);
-      } else {
-        info.plannedEa = int.tryParse(tItem.PlanQty);
-        info.actualEa = int.tryParse(tItem.ActualQty);
-      }
-      info.isInMDelivery = true;
-      productList.add(info);
-    }
+  fillProductPrice() {
+    DeliveryModel().cacheDeliveryHeaderPriceByM();
+    deliveryHeader = DeliveryModel().deliveryHeader;
   }
 
   Future fillEmptyProductData() async {

@@ -6,6 +6,7 @@ import 'package:mib/db/database.dart';
 import 'package:mib/synchronization/sync/sync_config.dart';
 import 'package:mib/synchronization/sync/sync_parameter.dart';
 import 'package:mib/synchronization/utils/sync_util.dart';
+import 'package:mib/utils/file_util.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:mib/synchronization/bean/table_uploade_bean.dart';
 
@@ -70,6 +71,7 @@ class UploadRequestCreate extends AbstractRequestCreate<Future<SyncRequestBean>>
     syncContentBean.tables = syncTableBeanList;
     syncDataRequestBean.reqContent = syncContentBean;
     Log().logger.i('*****************upload request*************\n${syncDataRequestBean.toJson()}');
+    FileUtil.writeString(syncDataRequestBean.toJson());
     return syncDataRequestBean;
   }
 }

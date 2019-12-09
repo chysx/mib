@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:mib/application.dart';
 import 'package:flustars/flustars.dart';
+import 'package:mib/common/constant.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
 ///  All rights reserved.
@@ -46,4 +48,14 @@ class FileUtil {
     }
     return result;
   }
+
+  static writeString(Map<String, dynamic> content) async {
+    String dstDir = getFilePath(Constant.WORK_LOG);
+    if(dstDir == null) return;
+    DirectoryUtil.createDirSync(dstDir);
+    File file = new File(dstDir + '/' + 'log.txt');
+    file.open(mode: FileMode.append);
+    await file.writeAsString(jsonEncode(content));
+  }
+
 }

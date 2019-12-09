@@ -67,28 +67,31 @@ class _DeliverySummarySate extends State<DeliverySummaryPage> {
                           Text(DeliveryModel().mDeliveryHeader?.PlanDeliveryDate ?? '',style: TextStyles.normal,),
                         ],
                       ),
-                      Padding(padding: EdgeInsets.only(top: 10),),
-                      Row(
-                        children: <Widget>[
-                          Text('Delivery Note:',style: TextStyles.normal,),
-                          Spacer(),
-                          Text(DeliveryModel().mDeliveryHeader?.DeliveryNote ?? '',style: TextStyles.normal,),
-                        ],
-                      )
+//                      Padding(padding: EdgeInsets.only(top: 10),),
+//                      Row(
+//                        children: <Widget>[
+//                          Text('Delivery Note:',style: TextStyles.normal,),
+//                          Spacer(),
+//                          Text(DeliveryModel().mDeliveryHeader?.DeliveryNote ?? '',style: TextStyles.normal,),
+//                        ],
+//                      )
                     ],
                   ),
                 ),
               ),
               FoldWidget(
-                msg: 'DELIVERY PRODUCTS',
+                msg: 'DELIVERY DETAIL',
                 isMore: true,
                 child: Column(
                   children: <Widget>[
                     ListHeaderWidget(
-                      names: ['Product', 'Qty'],
-                      supNames: ['', 'CS/EA'],
-                      weights: [1, 1],
+                      names: ['Product','Base', 'Qty','Discount','Net'],
+                      supNames: ['','AED', 'CS/EA','AED','AED'],
+                      weights: [1, 1,1,1,1],
                       aligns: [
+                        TextAlign.center,
+                        TextAlign.center,
+                        TextAlign.center,
                         TextAlign.center,
                         TextAlign.center,
                       ],
@@ -109,8 +112,20 @@ class _DeliverySummarySate extends State<DeliverySummaryPage> {
                               ),
                               Expanded(
                                 flex: 1,
+                                child: Text(info.basePrice?.toString() ?? '0.00',textAlign:TextAlign.center,style: TextStyles.small,),
+                              ),
+                              Expanded(
+                                flex: 1,
                                 child: Text(info.getActualShowStrByType(TaskType.Delivery),textAlign:TextAlign.center,style: TextStyles.small,),
                               ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(info.discount?.toString() ?? '0.00',textAlign:TextAlign.center,style: TextStyles.small,),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(info.netPrice?.toString() ?? '0.00',textAlign:TextAlign.center,style: TextStyles.small,),
+                              )
                             ],
                           ),
                         );
@@ -125,7 +140,7 @@ class _DeliverySummarySate extends State<DeliverySummaryPage> {
                 ),
               ),
               FoldWidget(
-                msg: 'EMPTY PRODUCTS',
+                msg: 'EMPTY RETURN',
                 isMore: true,
                 child: Column(
                   children: <Widget>[

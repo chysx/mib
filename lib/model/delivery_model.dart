@@ -107,6 +107,14 @@ class DeliveryModel {
     }
   }
 
+  void cacheDeliveryHeaderPriceByM() {
+    deliveryHeader.BasePrice = mDeliveryHeader.BasePrice;
+    deliveryHeader.NetPrice = mDeliveryHeader.NetPrice;
+    deliveryHeader.Discount = mDeliveryHeader.Discount;
+    deliveryHeader.Tax = mDeliveryHeader.Tax;
+    deliveryHeader.Deposit = mDeliveryHeader.Deposit;
+  }
+
   void cacheDeliveryItemList(List<BaseProductInfo> productList, String productUnitValue,{List<BaseProductInfo> emptyList}) {
     deliveryItemList.clear();
     String notTime = DateUtil.getDateStrByDateTime(new DateTime.now());
@@ -124,6 +132,7 @@ class DeliveryModel {
         add.DifferenceQty = (info.plannedCs - info.actualCs).toString();
         add.Reason = "24";
         add.IsReturn = IsReturn.TRUE;
+        add.ItemSequence = '2';
         add.CreateUser = Application.user.userCode;
         add.CreateTime = notTime;
         add.dirty = SyncDirtyStatus.DEFAULT;
@@ -145,9 +154,17 @@ class DeliveryModel {
           add.ActualQty = info.actualCs.toString();
           add.DifferenceQty = (info.plannedCs - info.actualCs).toString();
           add.Reason = info.reasonValue;
+          add.ItemSequence = '2';
           add.CreateUser = Application.user.userCode;
           add.CreateTime = notTime;
           add.dirty = SyncDirtyStatus.DEFAULT;
+
+
+          add.BasePrice = (info.basePriceCs ?? 0.0).toString();
+          add.NetPrice = (info.netPriceCs ?? 0.0).toString();
+          add.Discount = (info.discountCs ?? 0.0).toString();
+          add.Tax = (info.taxCs ?? 0.0).toString();
+          add.Deposit = (info.depositCs ?? 0.0).toString();
 
           deliveryItemList.add(add);
         }
@@ -164,9 +181,16 @@ class DeliveryModel {
           add.ActualQty = info.actualEa.toString();
           add.DifferenceQty = (info.plannedEa - info.actualEa).toString();
           add.Reason = info.reasonValue;
+          add.ItemSequence = '2';
           add.CreateUser = Application.user.userCode;
           add.CreateTime = notTime;
           add.dirty = SyncDirtyStatus.DEFAULT;
+
+          add.BasePrice = (info.basePriceEa ?? 0.0).toString();
+          add.NetPrice = (info.netPriceEa ?? 0.0).toString();
+          add.Discount = (info.discountEa ?? 0.0).toString();
+          add.Tax = (info.taxEa ?? 0.0).toString();
+          add.Deposit = (info.depositEa ?? 0.0).toString();
 
           deliveryItemList.add(add);
         }

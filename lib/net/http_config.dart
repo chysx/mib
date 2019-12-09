@@ -90,9 +90,9 @@ class HttpConfig {
 enum UrlConfig { PRD, UAT, QAS, DEV }
 
 class UrlDev {
-  static const String HOST = "180.166.98.86";
-  static const String PORT = "1089";
-  static const bool IS_SSL = false;
+  static const String HOST = "mibsfa.ebestmobile.net";
+  static const String PORT = "9999";
+  static const bool IS_SSL = true;
   static const String ENV = "DEV";
 }
 
@@ -103,26 +103,34 @@ class UrlDev {
 //  static const String ENV = "QAS";
 //}
 
+//class UrlQas {
+//  static const String HOST = "40.89.153.240";
+//  static const String PORT = "1080";
+//  static const bool IS_SSL = false;
+//  static const String ENV = "QAS";
+//}
+
 class UrlQas {
-  static const String HOST = "40.89.153.240";
-  static const String PORT = "1080";
+  static const String HOST = "180.166.98.86";
+  static const String PORT = "1090";
   static const bool IS_SSL = false;
   static const String ENV = "QAS";
 }
 
-class UrlUat {
-  static const String HOST = "40.89.153.240";
-  static const String PORT = "1088";
-  static const bool IS_SSL = false;
-  static const String ENV = "UAT";
-}
-
 //class UrlUat {
-//  static const String HOST = "180.166.98.86";
-//  static const String PORT = "1090";
+//  static const String HOST = "40.89.153.240";
+//  static const String PORT = "1088";
 //  static const bool IS_SSL = false;
 //  static const String ENV = "UAT";
 //}
+
+class UrlUat {
+//  cch qas
+  static const String HOST = "40.89.153.240";
+  static const String PORT = "1080";
+  static const bool IS_SSL = false;
+  static const String ENV = "UAT";
+}
 
 class UrlPrd {
   static const String HOST = "40.89.153.240";

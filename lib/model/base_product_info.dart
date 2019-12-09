@@ -23,6 +23,25 @@ class BaseProductInfo {
    bool isInMDelivery;
    bool isCheck = false;
 
+
+   double basePrice = 0.0;
+   double basePriceCs = 0.0;
+   double basePriceEa = 0.0;
+   double netPrice = 0.0;
+   double netPriceCs = 0.0;
+   double netPriceEa = 0.0;
+   double discount = 0.0;
+   double discountCs = 0.0;
+   double discountEa = 0.0;
+   double tax = 0.0;
+   double taxCs = 0.0;
+   double taxEa = 0.0;
+   double deposit = 0.0;
+   double depositCs = 0.0;
+   double depositEa = 0.0;
+
+
+
     String getPlanShowStr(String productUnitValue){
       if(productUnitValue == ProductUnit.CS_EA){
          return '$plannedCs/$plannedEa';

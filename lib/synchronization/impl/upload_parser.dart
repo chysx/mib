@@ -18,7 +18,8 @@ class UploadParser extends AbstractParser<Response<Map<String, dynamic>>> {
   @override
   Future<bool> parse(Response<Map<String, dynamic>> response) async {
     SyncResponseBean syncDataBean = SyncResponseBean.fromJson(response.data);
-    Log().logger.i('*************upload response***************\n ${syncDataBean.toJson()}');
+    Log().logger.e('''url = ${response.request.baseUrl + response.request.path}''');
+    Log().logger.e('*************upload response***************\n ${syncDataBean.toJson()}');
     return syncDataBean.status == SyncResponseStatus.SUCCESS;
   }
 }

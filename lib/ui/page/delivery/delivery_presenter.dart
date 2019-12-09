@@ -1,4 +1,5 @@
 import 'package:mib/application.dart';
+import 'package:mib/business/product_util.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/constant.dart';
 import 'package:mib/common/dictionary.dart';
@@ -90,47 +91,17 @@ class DeliveryPresenter extends EventNotifier<DeliveryEvent> {
   Future fillProductData() async {
     productList.clear();
 
-    List<DSD_T_DeliveryItem_Entity> tList = DeliveryModel().deliveryItemList;
-
     List<DSD_M_DeliveryItem_Entity> mList =
-        await Application.database.mDeliveryItemDao.findEntityByDeliveryNo(deliveryNo);
-    for (DSD_M_DeliveryItem_Entity mItem in mList) {
-      BaseProductInfo info = new BaseProductInfo();
-      info.code = mItem.ProductCode;
-      info.name = (await Application.productMap)[mItem.ProductCode];
-      if (mItem.ProductUnit == ProductUnit.CS) {
-        info.plannedCs = int.tryParse(mItem.PlanQty);
-        info.actualCs = int.tryParse(mItem.PlanQty);
-      } else {
-        info.plannedEa = int.tryParse(mItem.PlanQty);
-        info.actualEa = int.tryParse(mItem.PlanQty);
-      }
-      info.isInMDelivery = true;
-      productList.add(info);
-      for (DSD_T_DeliveryItem_Entity tItem in tList) {
-        if (mItem.ProductCode == tItem.ProductCode) {
-          if (tItem.ProductUnit == ProductUnit.CS) {
-            info.actualCs = int.tryParse(tItem.ActualQty);
-          } else {
-            info.actualEa = int.tryParse(tItem.ActualQty);
-          }
-        }
-      }
-    }
+    await Application.database.mDeliveryItemDao.findEntityByDeliveryNo(deliveryNo);
+    productList.addAll(await ProductUtil.mergeMProduct(mList, true,true));
+
   }
 
   Future fillEmptyProductData() async {
     emptyProductList.clear();
     List<MD_Product_Entity> list = await Application.database.productDao.findEntityByEmpty(Empty.TRUE);
-    List<DSD_T_DeliveryItem_Entity> tList = DeliveryModel().deliveryItemList;
     for (MD_Product_Entity product in list) {
       BaseProductInfo info = new BaseProductInfo();
-      for (DSD_T_DeliveryItem_Entity entity in tList) {
-        if (product.ProductCode == entity.ProductCode) {
-          info.actualEa = int.tryParse(entity.ActualQty);
-          break;
-        }
-      }
       info.code = product.ProductCode;
       info.name = product.Name;
       emptyProductList.add(info);
@@ -151,6 +122,24 @@ class DeliveryPresenter extends EventNotifier<DeliveryEvent> {
       }
     }
   }
+
+  void selectOrCancelAll(bool isCheck){
+    for(BaseProductInfo info in productList){
+      info.isCheck = isCheck;
+      info.actualCs = info.plannedCs;
+      info.actualEa = info.plannedEa;
+    }
+  }
+
+  void selectOrCancel(BaseProductInfo info,bool isCheck){
+    info.isCheck = isCheck;
+    if(isCheck){
+      info.actualCs = info.plannedCs;
+      info.actualEa = info.plannedEa;
+    }
+    notifyListeners();
+  }
+
 
   onInput(BaseProductInfo info) {
     info.isCheck = info.plannedCs == info.actualCs && info.plannedEa == info.actualEa;

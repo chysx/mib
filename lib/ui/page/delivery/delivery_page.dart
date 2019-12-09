@@ -219,7 +219,7 @@ class DeliveryPage extends StatelessWidget {
                                               child: TextField(
                                                 controller:
                                                 csList.length > 0 ? csList[index] : new TextEditingController(),
-                                                enabled: false,
+                                                enabled: true,
                                                 keyboardType: TextInputType.number,
                                                 style: TextStyles.normal,
                                                 decoration: InputDecoration(
@@ -243,7 +243,7 @@ class DeliveryPage extends StatelessWidget {
                                               child: TextField(
                                                 controller:
                                                 eaList.length > 0 ? eaList[index] : new TextEditingController(),
-                                                enabled: false,
+                                                enabled: true,
                                                 keyboardType: TextInputType.number,
                                                 style: TextStyles.normal,
                                                 decoration: InputDecoration(
@@ -268,7 +268,7 @@ class DeliveryPage extends StatelessWidget {
                                           child: Checkbox(
                                             value: info.isCheck,
                                             onChanged: (value){
-//                                              presenter.selectOrCancel(info, value);
+                                              presenter.selectOrCancel(info, value);
                                             },
                                           ),
                                         ),
@@ -373,7 +373,7 @@ class DeliveryPage extends StatelessWidget {
                                           child: Checkbox(
                                             value: info.isCheck,
                                             onChanged: (value){
-//                                              presenter.selectOrCancel(info, value);
+                                              presenter.selectOrCancel(info, value);
                                             },
                                           ),
                                         ),
