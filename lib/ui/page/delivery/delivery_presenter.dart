@@ -28,6 +28,9 @@ import 'package:flutter/material.dart';
 
 enum DeliveryEvent {
   InitData,
+  SelectOrCancelAll,
+  SelectOrCancel,
+  SelectOrCancelEmptyAll,
   OnInput,
 }
 
@@ -49,8 +52,17 @@ class DeliveryPresenter extends EventNotifier<DeliveryEvent> {
       case DeliveryEvent.InitData:
         await initData();
         break;
+      case DeliveryEvent.SelectOrCancelAll:
+        BaseProductInfo.selectOrCancelAll(productList, data);
+        break;
+      case DeliveryEvent.SelectOrCancelEmptyAll:
+        BaseProductInfo.selectOrCancelAll(emptyProductList, data);
+        break;
+      case DeliveryEvent.SelectOrCancel:
+        BaseProductInfo.selectOrCancel(data);
+        break;
       case DeliveryEvent.OnInput:
-        onInput(data);
+        BaseProductInfo.onInput(data);
         break;
     }
     super.onEvent(event, data);
@@ -121,28 +133,6 @@ class DeliveryPresenter extends EventNotifier<DeliveryEvent> {
         }
       }
     }
-  }
-
-  void selectOrCancelAll(bool isCheck){
-    for(BaseProductInfo info in productList){
-      info.isCheck = isCheck;
-      info.actualCs = info.plannedCs;
-      info.actualEa = info.plannedEa;
-    }
-  }
-
-  void selectOrCancel(BaseProductInfo info,bool isCheck){
-    info.isCheck = isCheck;
-    if(isCheck){
-      info.actualCs = info.plannedCs;
-      info.actualEa = info.plannedEa;
-    }
-    notifyListeners();
-  }
-
-
-  onInput(BaseProductInfo info) {
-    info.isCheck = info.plannedCs == info.actualCs && info.plannedEa == info.actualEa;
   }
 
   void cacheData() {

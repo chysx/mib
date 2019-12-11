@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mib/application.dart';
 import 'package:mib/net/http_service.dart';
+import 'package:mib/price/price_request_bean.dart';
 import 'package:mib/synchronization/bean/sync_request_bean.dart';
 import 'package:mib/ui/page/login/login_request_bean.dart';
 
@@ -26,4 +27,10 @@ class ApiService {
     String path = '/iSyncService/Upload.aspx';
     return Application.httpService.post(path, data: syncRequestBean.toJson());
   }
+
+  static Future<Response<Map<String, dynamic>>> getPriceCheck(PriceRequestBean priceRequestBean) {
+    String path = '/PricingSyncService/pricing/Service/PriceCheck/';
+    return Application.httpService.post(path, data: priceRequestBean.toJson());
+  }
+
 }

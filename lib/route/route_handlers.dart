@@ -216,7 +216,7 @@ PageBuilder deliverySummaryHandler = PageBuilder(builder: (bundle) {
       ChangeNotifierProvider<DeliverySummaryPresenter>(
           builder: (context) => new DeliverySummaryPresenter()
             ..setBundle(bundle)
-            ..onEvent(DeliverySummaryEvent.InitData)),
+            ..onEvent(DeliverySummaryEvent.InitData,context),),
     ],
     child: DeliverySummaryPage(),
   );

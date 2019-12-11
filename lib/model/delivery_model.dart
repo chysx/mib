@@ -137,6 +137,13 @@ class DeliveryModel {
         add.CreateTime = notTime;
         add.dirty = SyncDirtyStatus.DEFAULT;
 
+
+        add.BasePrice = '0';
+        add.NetPrice = '0';
+        add.Discount = '0';
+        add.Tax = '0';
+        add.Deposit = '0';
+
         deliveryItemList.add(add);
       }
     }
@@ -160,11 +167,11 @@ class DeliveryModel {
           add.dirty = SyncDirtyStatus.DEFAULT;
 
 
-          add.BasePrice = (info.basePriceCs ?? 0.0).toString();
-          add.NetPrice = (info.netPriceCs ?? 0.0).toString();
-          add.Discount = (info.discountCs ?? 0.0).toString();
-          add.Tax = (info.taxCs ?? 0.0).toString();
-          add.Deposit = (info.depositCs ?? 0.0).toString();
+          add.BasePrice = (info.basePriceCs ?? 0).toString();
+          add.NetPrice = (info.netPriceCs ?? 0).toString();
+          add.Discount = (info.discountCs ?? 0).toString();
+          add.Tax = (info.taxCs ?? 0).toString();
+          add.Deposit = (info.depositCs ?? 0).toString();
 
           deliveryItemList.add(add);
         }
@@ -186,11 +193,11 @@ class DeliveryModel {
           add.CreateTime = notTime;
           add.dirty = SyncDirtyStatus.DEFAULT;
 
-          add.BasePrice = (info.basePriceEa ?? 0.0).toString();
-          add.NetPrice = (info.netPriceEa ?? 0.0).toString();
-          add.Discount = (info.discountEa ?? 0.0).toString();
-          add.Tax = (info.taxEa ?? 0.0).toString();
-          add.Deposit = (info.depositEa ?? 0.0).toString();
+          add.BasePrice = (info.basePriceEa ?? 0).toString();
+          add.NetPrice = (info.netPriceEa ?? 0).toString();
+          add.Discount = (info.discountEa ?? 0).toString();
+          add.Tax = (info.taxEa ?? 0).toString();
+          add.Deposit = (info.depositEa ?? 0).toString();
 
           deliveryItemList.add(add);
         }

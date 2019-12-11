@@ -86,7 +86,7 @@ class DeliveryPage extends StatelessWidget {
       ],
       isCheck: false,
       onChange: (value) {
-//        presenter.onEvent(DeliveryEvent.SelectOrCancelAll, value);
+        presenter.onEvent(DeliveryEvent.SelectOrCancelAll, value);
       },
     );
   }
@@ -123,7 +123,7 @@ class DeliveryPage extends StatelessWidget {
       ],
       isCheck: false,
       onChange: (value) {
-//        presenter.onEvent(CheckInInventoryEvent.SelectOrCancelEmptyAll, value);
+        presenter.onEvent(DeliveryEvent.SelectOrCancelEmptyAll, value);
       },
     );
   }
@@ -145,7 +145,7 @@ class DeliveryPage extends StatelessWidget {
         TextAlign.center,
       ],
       onChange: (value) {
-//        presenter.onEvent(CheckOutInventoryEvent.SelectOrCancelAll,value);
+        presenter.onEvent(DeliveryEvent.SelectOrCancelAll,value);
       },
     );
   }
@@ -268,7 +268,7 @@ class DeliveryPage extends StatelessWidget {
                                           child: Checkbox(
                                             value: info.isCheck,
                                             onChanged: (value){
-                                              presenter.selectOrCancel(info, value);
+                                              presenter.onEvent(DeliveryEvent.SelectOrCancel,info);
                                             },
                                           ),
                                         ),
@@ -373,7 +373,7 @@ class DeliveryPage extends StatelessWidget {
                                           child: Checkbox(
                                             value: info.isCheck,
                                             onChanged: (value){
-                                              presenter.selectOrCancel(info, value);
+                                              presenter.onEvent(DeliveryEvent.SelectOrCancel,info);
                                             },
                                           ),
                                         ),

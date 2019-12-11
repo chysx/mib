@@ -32,4 +32,10 @@ class HttpService {
   void resetConfigDio(){
     dio.options = configDio();
   }
+
+
+  configDioByUrl(String url) {
+    dio.options =  new BaseOptions(baseUrl: url, connectTimeout: TimeOut.CONNECT_TIMEOUT,
+        receiveTimeout: TimeOut.READ_TIMEOUT);
+  }
 }

@@ -147,10 +147,13 @@ class PrintDeliverySlipPage extends StatelessWidget {
                       padding: EdgeInsets.only(top: 10),
                     ),
                     ListHeaderWidget(
-                      names: ['Lieferung', 'Qty'],
-                      supNames: ['', 'CS/EA'],
-                      weights: [1, 1],
+                      names: ['Product', 'Base', 'Qty', 'Discount', 'Net'],
+                      supNames: ['', 'AED', 'CS/EA', 'AED', 'AED'],
+                      weights: [1, 1, 1, 1, 1],
                       aligns: [
+                        TextAlign.center,
+                        TextAlign.center,
+                        TextAlign.center,
                         TextAlign.center,
                         TextAlign.center,
                       ],
@@ -163,7 +166,7 @@ class PrintDeliverySlipPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         BaseProductInfo info = presenter.productList[index];
                         return Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.only(top: 10,bottom: 10),
                           child: Row(
                             children: <Widget>[
                               Expanded(
@@ -177,11 +180,35 @@ class PrintDeliverySlipPage extends StatelessWidget {
                               Expanded(
                                 flex: 1,
                                 child: Text(
+                                  info.basePrice?.toString() ?? '0.00',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: Dimens.font_small, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
                                   info.getActualShowStrByType(TaskType.Delivery),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: Dimens.font_small, fontWeight: FontWeight.bold),
                                 ),
                               ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  info.discount?.toString() ?? '0.00',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: Dimens.font_small, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  info.netPrice?.toString() ?? '0.00',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: Dimens.font_small, fontWeight: FontWeight.bold),
+                                ),
+                              )
                             ],
                           ),
                         );
