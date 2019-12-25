@@ -146,5 +146,34 @@ class BaseProductInfo {
      info.isCheck = info.plannedCs == info.actualCs && info.plannedEa == info.actualEa;
    }
 
+   static TotalBaseProductInfo getTotalBaseProductInfo(List<BaseProductInfo> productList) {
+     TotalBaseProductInfo totalInfo = new TotalBaseProductInfo();
+     for(BaseProductInfo info in productList){
+       totalInfo
+         ..plannedCs += info.plannedCs ?? 0
+           ..plannedEa += info.plannedEa ?? 0
+           ..actualCs += info.actualCs ?? 0
+           ..actualEa += info.plannedEa ?? 0
+           ..basePrice += info.basePrice ?? 0
+           ..netPrice += info.netPrice ?? 0
+           ..discount += info.discount ?? 0
+           ..deposit += info.deposit ?? 0;
 
+     }
+     return totalInfo;
+   }
+
+
+}
+
+class TotalBaseProductInfo {
+  int plannedCs = 0;
+  int plannedEa = 0;
+  int actualCs = 0;
+  int actualEa = 0;
+  double basePrice = 0.0;
+  double netPrice = 0.0;
+  double discount = 0.0;
+  double tax = 0.0;
+  double deposit = 0.0;
 }

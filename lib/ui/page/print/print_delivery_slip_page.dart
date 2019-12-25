@@ -225,6 +225,25 @@ class PrintDeliverySlipPage extends StatelessWidget {
                     Divider(
                       height: 2,
                     ),
+                    ListHeaderWidget(
+                      names: ['Total', presenter.totalInfo.basePrice.toString(),
+                        '${presenter.totalInfo.actualCs}/${presenter.totalInfo.actualEa}',
+                        presenter.totalInfo.discount.toString(),
+                        presenter.totalInfo.netPrice.toString()],
+                      supNames: ['', '', '', '', ''],
+                      weights: [1, 1, 1, 1, 1],
+                      aligns: [
+                        TextAlign.center,
+                        TextAlign.center,
+                        TextAlign.center,
+                        TextAlign.center,
+                        TextAlign.center,
+                      ],
+                      isBold: true,
+                    ),
+                    Divider(
+                      height: 2,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                     ),
@@ -274,6 +293,54 @@ class PrintDeliverySlipPage extends StatelessWidget {
                         );
                       },
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                    ),
+                    Divider(
+                      height: 2,
+                    ),
+                    ListHeaderWidget(
+                      names: ['Total', BaseProductInfo.getTotalActualCs(presenter.emptyProductList).toString()],
+                      supNames: ['', ''],
+                      weights: [1, 1],
+                      aligns: [
+                        TextAlign.center,
+                        TextAlign.center,
+                      ],
+                      isBold: true,
+                    ),
+                    Divider(
+                      height: 2,
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                    ),
+                    Row(children: <Widget>[
+                      Text('Base Price',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                      Spacer(),
+                      Text('12.12',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                    ],),
+                    Row(children: <Widget>[
+                      Text('Discount',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                      Spacer(),
+                      Text('12.12',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                    ],),
+                    Row(children: <Widget>[
+                      Text('Net Price',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                      Spacer(),
+                      Text('12.12',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                    ],),
+                    Row(children: <Widget>[
+                      Text('Tax',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                      Spacer(),
+                      Text('12.12',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                    ],),
+                    Row(children: <Widget>[
+                      Text('Deposit',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                      Spacer(),
+                      Text('12.12',style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),),
+                    ],),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                     ),

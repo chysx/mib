@@ -2,6 +2,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mib/application.dart';
 import 'package:mib/business/delivery_util.dart';
 import 'package:mib/business/product_util.dart';
+import 'package:mib/business/signature/delivery_signature.dart';
+import 'package:mib/business/signature/signature_logic.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/constant.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_header_entity.dart';
@@ -111,9 +113,39 @@ class DeliverySummaryPresenter extends EventNotifier<DeliverySummaryEvent> {
   }
 
   Future onClickRight(BuildContext context) async {
-    await saveData();
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
+//    await saveData();
+//    Navigator.of(context).pop();
+//    Navigator.of(context).pop();
+      showSignature(context);
+  }
+
+  void showSignature(BuildContext context) {
+    new DeliverySignature(
+        accountNumber: accountNumber,
+        onSuccess: (_,info) async {
+          if(info.role == Role.driver){
+            print('onSuccess: ${info.name} ${info.code} \n${info.signatureName}');
+
+            DeliveryModel().cacheDeliveryHeaderCustomerSignature(info.signatureName);
+
+            await saveData();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+
+          }else {
+            DeliveryModel().cacheDeliveryHeaderDriverSignature(info.signatureName);
+          }
+        },
+        onFail: (_,info){
+          print('onFail');
+          if(info.role == Role.driver){
+            print('onSuccess: ${info.name} ${info.code} \n${info.signatureName}');
+
+          }else {
+
+          }
+        }
+    ).show(context);
   }
 
   Future saveData() async {

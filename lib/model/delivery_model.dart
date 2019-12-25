@@ -107,6 +107,23 @@ class DeliveryModel {
     }
   }
 
+  void cacheDeliveryHeaderCustomerSignature(String imgName){
+    String notTime = DateUtil.getDateStrByDateTime(new DateTime.now());
+    deliveryHeader
+      ..CustomerSignStatus = '1'
+      ..CustomerSignDate = notTime
+      ..CustomerSignImg = imgName;
+  }
+
+  void cacheDeliveryHeaderDriverSignature(String imgName){
+    String notTime = DateUtil.getDateStrByDateTime(new DateTime.now());
+    deliveryHeader
+      ..DriverSignStatus = '1'
+      ..DriverSignDate = notTime
+      ..DriverSignImg = imgName;
+  }
+
+
   void cacheDeliveryHeaderPriceByM() {
     deliveryHeader.BasePrice = mDeliveryHeader.BasePrice;
     deliveryHeader.NetPrice = mDeliveryHeader.NetPrice;

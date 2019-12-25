@@ -1,4 +1,6 @@
 import 'package:mib/application.dart';
+import 'package:mib/business/signature/delivery_signature.dart';
+import 'package:mib/business/signature/signature_logic.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/constant.dart';
 import 'package:mib/common/dictionary.dart';
@@ -281,7 +283,7 @@ class RoutePresenter extends EventNotifier<RouteEvent> {
 
   void onClickNavigation(material.BuildContext context, CustomerInfo info) {
     MapLaunchUtil.launchQuery('1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA');
-
+//    SignatureDialog.show(context);
   }
 
   ///

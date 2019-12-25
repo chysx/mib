@@ -107,10 +107,14 @@ class AccountMasterFields {
   static const String FINANCE_INFO = "FinanceInfo";
   static const String DELIVERY_INFO = "DeliveryInfo";
 
-  static const String Account_ebMobile__PaymentTerms__c = "Account_ebMobile__PaymentTerms__c";
-  static const String Account_ebMobile__SubTradeChannel__c = "Account_ebMobile__SubTradeChannel__c";
-  static const String Account_ebMobile__TradeChannel__c = "Account_ebMobile__TradeChannel__c";
-  static const String Account_ebMobile__Classification__c = "Account_ebMobile__Classification__c";
+  static const String Account_ebMobile__PaymentTerms__c =
+      "Account_ebMobile__PaymentTerms__c";
+  static const String Account_ebMobile__SubTradeChannel__c =
+      "Account_ebMobile__SubTradeChannel__c";
+  static const String Account_ebMobile__TradeChannel__c =
+      "Account_ebMobile__TradeChannel__c";
+  static const String Account_ebMobile__Classification__c =
+      "Account_ebMobile__Classification__c";
 }
 
 class CheckOutDiffReason {
@@ -123,4 +127,23 @@ class CheckInDiffReason {
 
 class CancelDelReasonExZF61 {
   static const String CATEGORY = "CancelDelReasonExZF61";
+}
+
+class BizModel {
+  static int START_OF_DAY = 1;
+  static int END_OF_DAY = 2;
+  static int CHECK_OUT = 3;
+  static int CHECK_IN = 4;
+  static int DELIVERY = 5;
+  static int TRADE_RETURN = 6;
+  static int EMPTY_RETURN = 7;
+  static int VAN_SALES = 8;
+  static int PRESALES = 9;
+  static int ARCOLLECTION = 10;
+  static int CHECK_IN_FINANCE = 11;
+  static int CHECK_IN_INVENTORY = 12;
+  static int CHECK_IN_SHIPMENT = 13;
+  static int CHECK_OUT_FINANCE = 14;
+  static int CHECK_OUT_INVENTORY = 15;
+  static int CHECK_OUT_FRAGMENT = 16;
 }

@@ -6,9 +6,11 @@ import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'db/database.dart';
 import 'res/strings.dart';
 
 void main(){
+  WidgetsFlutterBinding.ensureInitialized();
   Application.install();
   Routers.configRouters(Application.router);
   runApp(MyApp());

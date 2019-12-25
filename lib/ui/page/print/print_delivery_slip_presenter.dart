@@ -37,6 +37,7 @@ enum PrintDeliverySlipEvent {
 class PrintDeliverySlipPresenter extends EventNotifier<PrintDeliverySlipEvent> {
   List<BaseProductInfo> productList = [];
   List<BaseProductInfo> emptyProductList = [];
+  TotalBaseProductInfo totalInfo = new TotalBaseProductInfo();
   String shipmentNo;
   String accountNumber;
   String customerName;
@@ -69,6 +70,7 @@ class PrintDeliverySlipPresenter extends EventNotifier<PrintDeliverySlipEvent> {
     await DeliveryModel().initData(deliveryNo);
     await fillProductData();
     await fillEmptyProductData();
+    fillTotalBaseProductInfo();
     address = DeliveryModel().mDeliveryHeader.DeliveryAddress;
     orderNo = DeliveryModel().mDeliveryHeader.OrderNo;
 //    phone = DeliveryModel().mDeliveryHeader.DeliveryPhone;
@@ -88,6 +90,10 @@ class PrintDeliverySlipPresenter extends EventNotifier<PrintDeliverySlipEvent> {
     emptyProductList.clear();
     
     emptyProductList.addAll(await DeliveryUtil.createEmptyProductList(DeliveryModel().deliveryItemList));
+  }
+
+  fillTotalBaseProductInfo() {
+    totalInfo = BaseProductInfo.getTotalBaseProductInfo(productList);
   }
 
   Future onClickRight(BuildContext context,GlobalKey rootWidgetKey) async {
@@ -136,13 +142,11 @@ class PrintDeliverySlipPresenter extends EventNotifier<PrintDeliverySlipEvent> {
   }
 
   Uint8List getCustomerSign() {
-//    return FileUtil.readFileData(Constant.WORK_IMG, 'signature.png');
-    return null;
+    return FileUtil.readFileData(Constant.WORK_IMG, DeliveryModel().deliveryHeader.CustomerSignImg);
   }
 
   Uint8List getDriverSign() {
-//    return FileUtil.readFileData(Constant.WORK_IMG, 'signature2.png');
-    return null;
+    return FileUtil.readFileData(Constant.WORK_IMG, DeliveryModel().deliveryHeader.DriverSignImg);
   }
 
   @override

@@ -97,3 +97,13 @@ class ActionType {
   static const String CheckOut = "CHKO";
   static const String CheckIn = "CHKI";
 }
+
+class UserType {
+  static String CATEGORY = "UserType";
+  static String DRIVER = "Driver";
+  static String CHECKER = "Checker";
+  static String CASHIER = "Cashier";
+  static String GATEKEEPER = "Gatekeeper";
+  static String CUSTOMER = "Customer";
+  static String HELPER = "Helper";
+}
