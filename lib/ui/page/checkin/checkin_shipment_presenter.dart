@@ -1,4 +1,5 @@
 import 'package:mib/common/constant.dart';
+import 'package:mib/common/dictionary.dart';
 import 'package:mib/db/manager/route_manager.dart';
 import 'package:mib/db/manager/shipment_manager.dart';
 import 'package:mib/event/EventNotifier.dart';
@@ -85,15 +86,27 @@ class CheckInShipmentPresenter extends EventNotifier<CheckInShipmentEvent> {
     return map[shipmentInfo.no].getShowStr();
   }
 
-  void onClickItem(BuildContext context, ShipmentInfo info) {
+  Future<void> onClickItem(BuildContext context, ShipmentInfo info) async {
     if(!map[info.no].isAllVisited()){
       CustomerDialog.show(context,msg: 'Please upload all customer data first');
+      return;
+    }
+
+    if(info.status == ShipmentStatus.CHKI){
+      CustomerDialog.show(context,msg: 'This shipment had checked in');
       return;
     }
     Map<String, dynamic> bundle = {
       FragmentArg.ROUTE_SHIPMENT_NO: info.no,
     };
-    Navigator.pushNamed(context, PageName.check_in.toString(),
+
+    await Navigator.pushNamed(context, PageName.check_in.toString(),
         arguments: bundle);
+
+    onResume();
+  }
+
+  void onResume(){
+    onEvent(CheckInShipmentEvent.InitData);
   }
 }

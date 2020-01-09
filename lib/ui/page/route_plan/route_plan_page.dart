@@ -27,6 +27,7 @@ class RoutePlanPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
           title: GestureDetector(
         child: Text('ROUTE PLAN'),
       ) //Text('ROUTE PLAN'),
@@ -43,32 +44,37 @@ class RoutePlanPage extends StatelessWidget {
                   },
                   itemBuilder: (context, index) {
                     RoutePlanInfo info = presenter.routePlanList[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              info.no,
-                              textAlign: TextAlign.left,
+                    return GestureDetector(
+                      onTap: (){
+                        presenter.onClickItem(context, info);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                info.no,
+                                textAlign: TextAlign.left,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              info.type,
-                              textAlign: TextAlign.center,
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                info.type,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              info.qty.toString(),
-                              textAlign: TextAlign.center,
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                info.qty.toString(),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   }),

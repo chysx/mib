@@ -96,6 +96,19 @@ class CheckoutPresenter extends EventNotifier<CheckOutEvent> {
     });
   }
 
+  Future<void> onClickPrint(BuildContext context) async {
+    if (!isPass()) {
+      CustomerDialog.show(context, msg: 'You must complete the inventory count.');
+      return;
+    }
+
+    Map<String,dynamic> bundle = {
+      FragmentArg.ROUTE_SHIPMENT_NO: shipmentNo,
+    };
+    await Navigator.pushNamed(context, PageName.print_checkout_slip.toString(),arguments: bundle);
+
+  }
+
   @override
   void dispose() {
     CheckOutModel().clear();

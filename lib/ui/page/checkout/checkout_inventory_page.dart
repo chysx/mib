@@ -1,4 +1,5 @@
 import 'package:mib/model/base_product_info.dart';
+import 'package:mib/res/colors.dart';
 import 'package:mib/res/styles.dart';
 import 'package:mib/ui/widget/list_header_widget.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,7 @@ class _CheckoutInventoryState extends State<CheckoutInventoryPage> {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('INVENTORY COUNT'),
           actions: <Widget>[
             IconButton(
@@ -118,6 +120,20 @@ class _CheckoutInventoryState extends State<CheckoutInventoryPage> {
           initControllerEa(presenter);
           return Column(
             children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10),
+                color: ColorsRes.gray_normal,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        'SHIPMENT NO: ${presenter.shipmentNo}',
+                        style: TextStyles.large,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               createListHeaderWidget(presenter),
               Expanded(
                 child: ListView.separated(
@@ -153,7 +169,7 @@ class _CheckoutInventoryState extends State<CheckoutInventoryPage> {
                                 children: <Widget>[
                                   Expanded(
                                     child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                       child: Theme(
                                         data: ThemeData(primaryColor: Colors.grey),
                                         child: TextField(
@@ -175,7 +191,7 @@ class _CheckoutInventoryState extends State<CheckoutInventoryPage> {
                                   ),
                                   Expanded(
                                     child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                       child: Theme(
                                         data: ThemeData(primaryColor: Colors.grey),
                                         child: TextField(

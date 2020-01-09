@@ -153,6 +153,7 @@ class CheckInInventoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('INVENTORY CHECKIN'),
         actions: <Widget>[
           IconButton(
@@ -212,7 +213,7 @@ class CheckInInventoryPage extends StatelessWidget {
                                       children: <Widget>[
                                         Expanded(
                                           child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                             child: Theme(
                                               data: ThemeData(primaryColor: Colors.grey),
                                               child: TextField(
@@ -235,7 +236,7 @@ class CheckInInventoryPage extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                             child: Theme(
                                               data: ThemeData(primaryColor: Colors.grey),
                                               child: TextField(
@@ -339,7 +340,7 @@ class CheckInInventoryPage extends StatelessWidget {
                                       children: <Widget>[
                                         Expanded(
                                           child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                             child: Theme(
                                               data: ThemeData(primaryColor: Colors.grey),
                                               child: TextField(

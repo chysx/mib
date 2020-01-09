@@ -6,7 +6,7 @@
 ///  Date:         2019/7/30 16:36
 
 class HttpConfig {
-  static UrlConfig urlConfig = UrlConfig.QAS;
+  static UrlConfig urlConfig = UrlConfig.DEV;
 
   static const String SCHEME_HTTP = "http://";
   static const String SCHEME_HTTPS = "https://";

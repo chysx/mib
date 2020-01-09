@@ -3,6 +3,10 @@ import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/model/check_out_and_in_model.dart';
 import 'package:mib/route/page_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:mib/synchronization/sync/sync_parameter.dart';
+import 'package:mib/synchronization/sync/sync_type.dart';
+import 'package:mib/synchronization/sync_manager.dart';
+import 'package:mib/ui/dialog/customer_dialog.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
 ///  All rights reserved.
@@ -62,8 +66,36 @@ class CheckInPresenter extends EventNotifier<CheckInEvent> {
     onEvent(CheckInEvent.InitData);
   }
 
-  void onClickRight(){
-    CheckInModel().updateShipmentHeader();
+
+  bool isPass() {
+    return isComplete();
   }
+
+  Future<void> onClickRight(BuildContext context) async {
+    if (isPass()) {
+      await CheckInModel().updateShipmentHeader();
+      uploadData(context);
+    }else{
+      CustomerDialog.show(context, msg: 'You must complete the inventory count.');
+    }
+
+  }
+
+
+  void uploadData(BuildContext context) {
+    SyncParameter syncParameter = new SyncParameter();
+    syncParameter.putUploadUniqueIdValues([shipmentNo]).putUploadName([shipmentNo]);
+
+    SyncManager.start(SyncType.SYNC_UPLOAD_CHECKIN, context: context,syncParameter: syncParameter, onSuccessSync: () {
+      Navigator.of(context).pop();
+    }, onFailSync: (e) async {
+      CustomerDialog.show(context, msg: 'upload fail', onConfirm: () {
+        Navigator.of(context).pop();
+      }, onCancel: () {
+        Navigator.of(context).pop();
+      });
+    });
+  }
+
 
 }

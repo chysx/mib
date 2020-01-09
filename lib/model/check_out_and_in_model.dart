@@ -97,7 +97,7 @@ class CheckOutAndInModel {
 
 
     for (BaseProductInfo info in productList) {
-      if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.CS) {
+//      if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.CS) {
         if (info.plannedCs != 0 || info.actualCs != 0) {
           DSD_T_ShipmentItem_Entity add = new DSD_T_ShipmentItem_Entity.Empty();
 
@@ -116,9 +116,9 @@ class CheckOutAndInModel {
 
           shipmentItemList.add(add);
         }
-      }
+//      }
 
-      if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.EA) {
+//      if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.EA) {
         if (info.plannedEa != 0 || info.actualEa != 0) {
           DSD_T_ShipmentItem_Entity add = new DSD_T_ShipmentItem_Entity.Empty();
 
@@ -137,7 +137,7 @@ class CheckOutAndInModel {
 
           shipmentItemList.add(add);
         }
-      }
+//      }
     }
   }
 

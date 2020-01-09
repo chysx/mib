@@ -17,11 +17,15 @@ class CheckInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('CHECKIN'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_forward),
-            onPressed: () {},
+            onPressed: () {
+              CheckInPresenter presenter = Provider.of<CheckInPresenter>(context);
+              presenter.onClickRight(context);
+            },
           )
         ],
       ),
@@ -41,7 +45,7 @@ class CheckInPage extends StatelessWidget {
                   Spacer(),
                   Text(presenter.getIsCompleteText(),style: TextStyles.large,),
                   Icon(
-                    Icons.arrow_forward_ios,
+                    Icons.keyboard_arrow_right,
                     color: Colors.grey,
                   )
                 ],

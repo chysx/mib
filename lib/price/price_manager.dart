@@ -61,7 +61,7 @@ class PriceManager {
 
 
   static Future start({OnSuccess onSuccessSync, OnFail onFailSync, BuildContext context}) async {
-    HttpService().configDioByUrl('https://mibsfa.ebestmobile.net:9999');
+//    HttpService().configDioByUrl('https://mibsfa.ebestmobile.net:9999');
     if (context != null) LoadingDialog.show(context,msg: 'pricing...');
     try{
       Response<Map<String, dynamic>> reponse = await ApiService.getPriceCheck(createRequest());

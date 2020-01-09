@@ -30,6 +30,7 @@ class PrintDeliverySlipPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('LIEFERSCHEIN'),
         actions: <Widget>[
           IconButton(
@@ -92,7 +93,8 @@ class PrintDeliverySlipPage extends StatelessWidget {
                                 style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                  '''${presenter.accountNumber}\n${presenter.address} ''',
+                                '''${presenter.accountNumber}\n${presenter.address} ''',
+
                                 style: TextStyle(fontSize: Dimens.font_normal, fontWeight: FontWeight.bold),
                               ),
                               Padding(

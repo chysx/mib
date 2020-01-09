@@ -154,6 +154,7 @@ class DeliveryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('DELIVERY'),
         actions: <Widget>[
           IconButton(
@@ -213,7 +214,7 @@ class DeliveryPage extends StatelessWidget {
                                       children: <Widget>[
                                         Expanded(
                                           child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                             child: Theme(
                                               data: ThemeData(primaryColor: Colors.grey),
                                               child: TextField(
@@ -237,7 +238,7 @@ class DeliveryPage extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                             child: Theme(
                                               data: ThemeData(primaryColor: Colors.grey),
                                               child: TextField(
@@ -342,7 +343,7 @@ class DeliveryPage extends StatelessWidget {
                                       children: <Widget>[
                                         Expanded(
                                           child: SizedBox(
-//                                height: 36,
+                                height: 36,
                                             child: Theme(
                                               data: ThemeData(primaryColor: Colors.grey),
                                               child: TextField(

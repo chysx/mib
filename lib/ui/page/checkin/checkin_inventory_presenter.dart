@@ -1,3 +1,4 @@
+import 'package:fluintl/fluintl.dart';
 import 'package:mib/application.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/constant.dart';
@@ -9,6 +10,7 @@ import 'package:mib/db/table/entity/md_product_entity.dart';
 import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/model/base_product_info.dart';
 import 'package:mib/model/check_out_and_in_model.dart';
+import 'package:mib/res/strings.dart';
 import 'package:mib/ui/dialog/customer_dialog.dart';
 import 'package:mib/ui/dialog/list_dialog.dart';
 import 'package:mib/ui/dialog/model/key_value_info.dart';
@@ -114,7 +116,7 @@ class CheckInInventoryPresenter extends EventNotifier<CheckInInventoryEvent> {
   }
 
   void showReasonDialog(BuildContext context,BaseProductInfo info){
-    ListDialog.show(context,title: 'title',data: reasonList,onSelect: (reason){
+    ListDialog.show(context,title: IntlUtil.getString(context, Ids.checkoutInventory_title_reason),data: reasonList,onSelect: (reason){
       info.reasonValue = reason.value;
       notifyListeners();
     });

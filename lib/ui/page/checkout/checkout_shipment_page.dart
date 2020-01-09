@@ -35,6 +35,7 @@ class CheckoutShipmentPage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('SHIPMENT'),
       ),
       body: Consumer<CheckoutShipmentPresenter>(builder: (context, presenter, _) {

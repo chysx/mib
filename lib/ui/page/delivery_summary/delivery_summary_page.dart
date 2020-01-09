@@ -29,6 +29,7 @@ class _DeliverySummarySate extends State<DeliverySummaryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('DeliverySummary'),
           actions: <Widget>[
             Builder(builder: (context) {

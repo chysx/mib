@@ -5,6 +5,7 @@ import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/model/shipment_info.dart';
 import 'package:mib/route/page_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:mib/utils/file_util.dart';
 
 enum ShipmentEvent {
   InitData
@@ -38,6 +39,7 @@ class CheckoutShipmentPresenter extends EventNotifier<ShipmentEvent> {
   }
 
   Future onClickItem(BuildContext context,ShipmentInfo info) async {
+    FileUtil.getFilePath('db');
     if(info.status == ShipmentStatus.CHKO){
       Map<String,dynamic> bundle = {
         FragmentArg.ROUTE_SHIPMENT_NO: info.no,
