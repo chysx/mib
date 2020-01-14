@@ -2,9 +2,11 @@ import 'package:mib/application.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/db/table/entity/dsd_t_truck_stock_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_truck_stock_tracking_entity.dart';
+import 'package:mib/model/base_product_info.dart';
 import 'package:mib/model/truck_stock_product_info.dart';
 import 'package:mib/synchronization/sync/sync_dirty_status.dart';
 import 'package:flustars/flustars.dart';
+import 'package:mib/utils/sql_util.dart';
 import 'package:uuid/uuid.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
@@ -47,6 +49,7 @@ class TruckStockManager {
 
 
     switch (action) {
+      case StockTracking.CHKO_VASL:
       case StockTracking.CHKO:
         switch (stockType) {
           case StockType.DO:
@@ -106,6 +109,25 @@ class TruckStockManager {
         }
         eaStockQtyTo = 0; //空瓶箱产品没有EA，所以这里存储为0
         break;
+      case StockTracking.VASL:
+        switch (stockType) {
+          case StockType.DO:
+            csStockQtyTo -= csChange;
+            eaStockQtyTo -= eaChange;
+
+            csSaleable += csSaleableChange;
+            eaSaleable += eaSaleableChange;
+            break;
+          case StockType.CANCEL:
+            csStockQtyTo += csChange;
+            eaStockQtyTo += eaChange;
+
+            csSaleable -= csSaleableChange;
+            eaSaleable -= eaSaleableChange;
+            break;
+        }
+        break;
+      case StockTracking.CHKI_VASL:
       case StockTracking.CHKI:
         switch (stockType) {
           case StockType.DO:
@@ -239,4 +261,59 @@ class TruckStockManager {
     resultList.addAll(hashMap.values);
     return resultList;
   }
+
+  ///
+  /// 获取该用户今天已经CheckIn的Shipment列表数据（不管有没有上传过）
+  ///
+  static Future<List<BaseProductInfo>> getStock(String shipmentNo) async {
+    String sql = ''' 
+          SELECT
+            t1.shipmentno,
+            t1.productcode,
+            t1.productunit,
+            t1.stockqty,
+            t1.saleableqty,
+            t2.name
+        FROM
+            dsd_t_truckstock AS t1        
+        LEFT JOIN
+            md_product AS t2          
+                ON t1.productcode = t2.productcode             
+        WHERE
+            t1.shipmentno = ?
+            AND t2.ebmobile__isempty__c != ? AND t2.ebmobile__returnablepackagingindicator__c != ?
+     ''';
+    SqlUtil.log(sql, [shipmentNo,Empty.TRUE,Equipment.TRUE]);
+    var db = Application.database.database;
+    List<Map<String, dynamic>> list = await db.rawQuery(sql, [shipmentNo,Empty.TRUE,Equipment.TRUE]);
+
+    Map<String, BaseProductInfo> hashMap = {};
+    for (Map<String, dynamic> map in list) {
+      List values = map.values.toList();
+      String code = values[1];
+      String unit = values[2];
+      BaseProductInfo info = hashMap[code];
+      if(info == null) {
+        info = new BaseProductInfo();
+        hashMap[code] = info;
+        info.code = values[1];
+        info.name = values[5];
+      }
+
+      if(unit == ProductUnit.CS){
+        info.plannedCs = values[3];
+        info.salesAbleCs = values[4];
+      }else if(unit == ProductUnit.EA) {
+        info.plannedEa = values[3];
+        info.salesAbleEa = values[4];
+      }
+
+    }
+
+    List<BaseProductInfo> resultList = [];
+    resultList.addAll(hashMap.values);
+    return resultList;
+  }
+
+
 }

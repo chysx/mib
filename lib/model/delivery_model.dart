@@ -132,7 +132,8 @@ class DeliveryModel {
     deliveryHeader.Deposit = mDeliveryHeader.Deposit;
   }
 
-  void cacheDeliveryItemList(List<BaseProductInfo> productList, String productUnitValue,{List<BaseProductInfo> emptyList}) {
+
+    void cacheDeliveryItemList(List<BaseProductInfo> productList, String productUnitValue,{List<BaseProductInfo> emptyList}) {
     deliveryItemList.clear();
     String notTime = DateUtil.getDateStrByDateTime(new DateTime.now());
 
@@ -174,7 +175,11 @@ class DeliveryModel {
           add.DeliveryNo = _deliveryNo;
           add.ProductCode = info.code;
           add.ProductUnit = ProductUnit.CS;
-          add.PlanQty = info.plannedCs.toString();
+          if(deliveryHeader.DeliveryStatus == DeliveryStatus.SALES_VALUE){
+            add.PlanQty = info.salesAbleCs.toString();
+          }else{
+            add.PlanQty = info.plannedCs.toString();
+          }
           add.ActualQty = info.actualCs.toString();
           add.DifferenceQty = (info.plannedCs - info.actualCs).toString();
           add.Reason = info.reasonValue;
@@ -201,7 +206,11 @@ class DeliveryModel {
           add.DeliveryNo = _deliveryNo;
           add.ProductCode = info.code;
           add.ProductUnit = ProductUnit.EA;
-          add.PlanQty = info.plannedEa.toString();
+          if(deliveryHeader.DeliveryStatus == DeliveryStatus.SALES_VALUE){
+            add.PlanQty = info.salesAbleEa.toString();
+          }else{
+            add.PlanQty = info.plannedEa.toString();
+          }
           add.ActualQty = info.actualEa.toString();
           add.DifferenceQty = (info.plannedEa - info.actualEa).toString();
           add.Reason = info.reasonValue;

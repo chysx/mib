@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:mib/common/constant.dart';
 import 'package:mib/db/dao/app_log_dao.dart';
 import 'package:mib/db/dao/dsd_m_delivery_header_dao.dart';
+import 'package:mib/db/dao/dsd_m_shipment_vansales_route_dao.dart';
 import 'package:mib/db/dao/md_person_dao.dart';
 import 'package:mib/db/dao/sync_download_logic_dao.dart';
 import 'package:mib/db/dao/sync_photo_upload_dao.dart';
@@ -13,6 +14,7 @@ import 'package:mib/db/table/entity/dsd_m_delivery_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_delivery_item_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_shipment_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_shipment_item_entity.dart';
+import 'package:mib/db/table/entity/dsd_m_shipment_sales_route_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_system_config_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_truck_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_header_entity.dart';
@@ -84,7 +86,8 @@ part 'database.g.dart'; // the generated code will be there
   MD_Contact_Entity,
   MD_Dictionary_Entity,
   MD_Person_Entity,
-  MD_Product_Entity
+  MD_Product_Entity,
+  DSD_M_ShipmentVanSalesRoute_Entity,
 ])
 abstract class AppDatabase extends FloorDatabase {
   AppLogDao get appLogDao;
@@ -110,6 +113,7 @@ abstract class AppDatabase extends FloorDatabase {
   MD_Dictionary_Dao dictionaryDao;
   MD_Person_Dao personDao;
   MD_Product_Dao productDao;
+  DSD_M_ShipmentVanSalesRoute_Dao shipmentVanDao;
 
 }
 

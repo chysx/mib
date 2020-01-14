@@ -1,8 +1,6 @@
 import 'package:mib/common/dictionary.dart';
 import 'package:mib/model/base_product_info.dart';
 import 'package:mib/model/delivery_model.dart';
-import 'package:mib/res/colors.dart';
-import 'package:mib/res/dimens.dart';
 import 'package:mib/res/styles.dart';
 import 'package:mib/ui/page/delivery_summary/delivery_summary_presenter.dart';
 import 'package:mib/ui/widget/fold_widget.dart';

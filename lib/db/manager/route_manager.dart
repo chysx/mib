@@ -1,3 +1,4 @@
+import 'package:mib/business/delivery_util.dart';
 import 'package:mib/business/visit/visit_cancel_util.dart';
 import 'package:mib/common/dictionary.dart';
 import 'package:mib/db/manager/visit_manager.dart';
@@ -35,7 +36,7 @@ class RouteManager {
 //      RoutePresenter.makeIndex(allList);
       return allList;
     } else if (shipmentType == ShipmentType.VANSALES) {
-//      return getCustomerInfoListByVanSales(shipmentNo);
+      return getCustomerInfoListByVanSales(shipmentNo);
     }
 
     return <CustomerInfo>[];
@@ -218,6 +219,130 @@ class RouteManager {
 
    }
 
+
+   ///
+   ///  获取指定Shipment下的门店（也就是Vansales类型的门店）数据和门店状态（包括，是什么类型的门店，已做任务后的Status，是否完成拜访）
+   ///
+   static Future<List<CustomerInfo>> getCustomerInfoListByVanSales(String shipmentNo) async {
+     List<CustomerInfo> resultList = [];
+     String sql = ''' 
+             SELECT
+            t.accountnumber,
+            t.name,
+            t.ebMobile__Address__c,
+            j2.name as name1,
+            j2.phone,
+            j2.mobilephone,
+            t.Geo_Latitude,
+            t.Geo_Longitude,
+            t.ebMobile__OrderBlock__c,
+            t.ebMobile__Barcode__c,
+            j1.NewAndStatus 
+        FROM
+            md_account t          
+        JOIN
+            DSD_M_ShipmentVanSalesRoute j1            
+                ON t.accountnumber = j1.accountnumber          
+        LEFT JOIN
+            md_contact j2            
+                ON t.accountnumber = j2.accountnumber__c 
+        WHERE
+            j1.shipmentno = ? 
+        GROUP BY
+            t.accountnumber 
+      ''';
+
+     SqlUtil.log(sql, [shipmentNo]);
+
+     var db = Application.database.database;
+     List<Map<String, dynamic>> list = await db.rawQuery(sql,[shipmentNo]);
+     print('length = ${list.length}');
+     for (Map<String, dynamic> map in list) {
+       CustomerInfo info = CustomerInfo();
+       List<dynamic> values = map.values.toList();
+       resultList.add(info);
+       info
+         ..accountNumber = values[0]
+         ..name = values[1]
+         ..address = values[2]
+         ..contactName = values[3]
+         ..phone = values[4]
+         ..tel = values[5]
+         ..latitude = double.tryParse(values[6])
+         ..longitude = double.tryParse(values[7])
+         ..block = values[8]
+         ..barcode = values[9]
+         ..newAndStatus = values[10]
+         ..index = RoutePresenter.realMakeIndex(resultList.length)
+         ..customerType = CustomerType.VanSales;
+
+
+       info.isVisitComplete = await VisitManager.isVisitCompleteByCustomer(shipmentNo, info.accountNumber);
+
+       Map<String, List<DSD_T_DeliveryHeader_Entity>> tDeliveryMap = await getCustomerDeliveryMap(shipmentNo);
+       List<DSD_M_DeliveryHeader_Entity> deliveryHeaderList = await Application.database.mDeliveryHeaderDao.findEntityByCon(shipmentNo, info.accountNumber);
+       info.status = getCustomerVanSalesStatus(tDeliveryMap[info.accountNumber], deliveryHeaderList,info.accountNumber,shipmentNo);
+
+     }
+     return resultList;
+   }
+
+   ///
+   /// 获取Delivery类型门店的Status状态
+   /// @param tDeliveryEntityList DSD_T_DeliveryHeader_Entity交易数据表构成的状态集合
+   /// @param mDeliveryEntityList DSD_M_DeliveryHeader_Entity 主数据表指定客户包含的delivery数量
+   /// @return
+   ///
+   static String getCustomerVanSalesStatus(List<DSD_T_DeliveryHeader_Entity> tDeliveryEntityList,
+       List<DSD_M_DeliveryHeader_Entity> mDeliveryEntityList, String accountNumber, String shipmentNo) {
+
+     //没有做过任何配送任务并且没有做过PreSell任务（PreSell任务数据不在DSD_T_DeliveryHeader表中，
+     // 有自己单独的数据表存储）则该门店的状态为默认状态
+     if ((tDeliveryEntityList == null || tDeliveryEntityList.length == 0)) {
+       return DeliveryStatus.DEFALUT_VANSALES;
+     }
+
+     if (tDeliveryEntityList == null) {
+       tDeliveryEntityList = [];
+     }
+
+     DSD_T_DeliveryHeader_Entity empty = new DSD_T_DeliveryHeader_Entity.Empty();
+     empty.DeliveryStatus = "";
+
+     DSD_T_DeliveryHeader_Entity vanSales = empty, tradeReturn = empty, emptyReturn = empty;
+     for (DSD_T_DeliveryHeader_Entity tEntity in tDeliveryEntityList) {
+       if(tEntity.DeliveryType == TaskType.VanSales){
+         vanSales = tEntity;
+       }
+       if(tEntity.DeliveryType == TaskType.TradeReturn){
+         tradeReturn = tEntity;
+       }
+       if(tEntity.DeliveryType == TaskType.EmptyReturn){
+         emptyReturn = tEntity;
+       }
+     }
+
+//     if(vanSales.DeliveryStatus == DeliveryStatus.CANCEL_VALUE &&
+//         tradeReturn.DeliveryStatus == DeliveryStatus.CANCEL_VALUE &&
+//         emptyReturn.DeliveryStatus == DeliveryStatus.CANCEL_VALUE){
+//
+//       return DeliveryStatus.CANCEL;
+//     }
+
+
+     if(vanSales.DeliveryStatus == DeliveryStatus.CANCEL_VALUE){
+       return DeliveryStatus.CANCEL;
+     }
+
+     if(vanSales.DeliveryStatus == DeliveryStatus.SALES_VALUE){
+       return DeliveryStatus.SALES;
+     }
+
+     return DeliveryStatus.DEFALUT_VANSALES;
+
+   }
+
+
    ///
    /// 每个门店包含的已经做过的配送任务（比如Delivery,TradeReturn,EmptyReturn,Vansales等等任务）;
    /// key:门店编号(accountNumber)
@@ -246,7 +371,30 @@ class RouteManager {
      return tDeliveryMap;
    }
 
-   static Future<String> updateDeliveryStatusCancel(String shipmentNo, String accountNumber, String reasonValue) async {
+   static Future<String> updateVanSalesStatusCancel(String shipmentNo, String accountNumber, String reasonValue) async {
+     DSD_T_Visit_Entity visitEntity = VisitManager.createVisit(shipmentNo, accountNumber, reasonValue);
+
+     String nowDate = DateUtil.getDateStrByDateTime(new DateTime.now());
+
+     DSD_T_DeliveryHeader_Entity tHeader = new DSD_T_DeliveryHeader_Entity.Empty();
+     tHeader.VisitId = visitEntity.VisitId;
+     tHeader.ShipmentNo = shipmentNo;
+     tHeader.AccountNumber = accountNumber;
+     tHeader.DeliveryNo = DeliveryUtil.createDeliveryNo(accountNumber);
+     tHeader.DeliveryType = TaskType.VanSales;
+     tHeader.DeliveryStatus = DeliveryStatus.CANCEL_VALUE;
+     tHeader.CancelReason = reasonValue;
+     tHeader.CancelTime = nowDate;
+     tHeader.CreateTime = nowDate;
+     tHeader.dirty = SyncDirtyStatus.DEFAULT;
+
+     await Application.database.tDeliveryHeaderDao.insertEntity(tHeader);
+     await Application.database.tVisitDao.insertEntity(visitEntity);
+
+     return visitEntity.VisitId;
+   }
+
+     static Future<String> updateDeliveryStatusCancel(String shipmentNo, String accountNumber, String reasonValue) async {
      String nowDate = DateUtil.getDateStrByDateTime(new DateTime.now());
      ///已经做配送任务的集合
      List<DSD_T_DeliveryHeader_Entity> tDeliveryHeaderList = await Application.database.tDeliveryHeaderDao.findEntityByCon(shipmentNo, accountNumber);

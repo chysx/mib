@@ -323,7 +323,12 @@ class RoutePresenter extends EventNotifier<RouteEvent> {
     List<KeyValueInfo> reasonList = await ReasonManager.getReasonData(CancelDelReasonExZF61.CATEGORY);
     ListDialog.show(context,title: IntlUtil.getString(context, Ids.checkoutInventory_title_reason),data: reasonList,onSelect: (reason) async {
       info.cancelReason = reason.value;
-      String visitId = await RouteManager.updateDeliveryStatusCancel(currentShipment.no, info.accountNumber, info.cancelReason);
+      String visitId;
+      if(info.customerType == CustomerType.Delivery) {
+        visitId = await RouteManager.updateDeliveryStatusCancel(currentShipment.no, info.accountNumber, info.cancelReason);
+      }else if(info.customerType == CustomerType.VanSales) {
+        visitId = await RouteManager.updateVanSalesStatusCancel(currentShipment.no, info.accountNumber, info.cancelReason);
+      }
       uploadData(context, visitId, info.accountNumber);
     });
   }

@@ -1,3 +1,4 @@
+import 'package:flustars/flustars.dart';
 import 'package:mib/application.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_item_entity.dart';
@@ -25,4 +26,17 @@ class DeliveryUtil {
     }
     return result;
   }
+
+  ///
+  /// 创建deliveryNo
+  /// @param accountNumber 门店编号
+  /// @return
+  ///
+  static String createDeliveryNo(String accountNumber){
+    String monthDay = DateUtil.getDateStrByDateTime(DateTime.now(), format: DateFormat.MONTH_DAY).replaceAll('-', '');
+    String hms = DateUtil.getDateStrByDateTime(DateTime.now(), format: DateFormat.HOUR_MINUTE_SECOND).replaceAll(':', '');
+
+    return '$accountNumber$monthDay$hms';
+  }
+
 }

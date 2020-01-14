@@ -50,6 +50,9 @@ enum PageName {
   print_delivery_slip,
   print_checkout_slip,
   route_plan_detail,
+  van_sales,
+  van_sales_summary,
+  print_van_sales_slip,
 }
 
 

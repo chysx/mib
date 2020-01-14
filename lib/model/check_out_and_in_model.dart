@@ -45,9 +45,11 @@ class CheckOutAndInModel {
 
   String _getStockTrackingType(){
     if(this is CheckOutModel){
-      return StockTracking.CHKO;
+      if(shipmentHeader.ShipmentType == ShipmentType.DELIVERY) return StockTracking.CHKO;
+      if(shipmentHeader.ShipmentType == ShipmentType.VANSALES) return StockTracking.CHKO_VASL;
     }else if(this is CheckInModel){
-      return StockTracking.CHKI;
+      if(shipmentHeader.ShipmentType == ShipmentType.DELIVERY) return StockTracking.CHKI;
+      if(shipmentHeader.ShipmentType == ShipmentType.VANSALES) return StockTracking.CHKI_VASL;
     }
     return null;
   }
@@ -128,7 +130,7 @@ class CheckOutAndInModel {
 
           add.PlanQty = info.plannedEa;
           add.ActualQty = info.actualEa;
-          add.DifferenceQty = info.plannedEa - info.actualEa;
+          add.DifferenceQty = info.plannedEa??0 - info.actualEa??0;
 
           add.DifferenceReason = info.reasonValue;
           add.CreateUser = Application.user.userCode;

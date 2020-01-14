@@ -153,5 +153,6 @@ class ProductUtil {
     info.discount = info.discountCs ?? 0.0 + info.discountEa ?? 0.0;
     info.tax = info.taxCs ?? 0.0 + info.taxEa ?? 0.0;
     info.deposit = info.depositCs ?? 0.0 + info.depositEa ?? 0.0;
+
   }
 }

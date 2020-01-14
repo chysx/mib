@@ -48,6 +48,21 @@ class IsReturn {
 }
 
 ///
+///  * 根据配置控制（MD_Product表中的EbMobile__ReturnablePackagingIndicator__c字段）
+///
+class Equipment {
+  ///
+  /// 盘点物料
+  ///
+  static const String TRUE = "true";
+
+  ///
+  /// 非盘点物料
+  ///
+  static const String FALSE = "false";
+}
+
+///
 /// 根据配置控制（MD_Product表中的ebMobile__IsEmpty__c字段）
 ///
 class Empty {
@@ -74,6 +89,8 @@ class ProductUnit {
 class StockTracking {
   static const String CATEGORY = "StockTracking";
   static const String CHKO = "CHKO";
+  static const String CHKO_VASL = "CHKO_VASL";
+  static const String CHKI_VASL = "CHKI_VASL";
   static const String CHKI = "CHKI";
   static const String DELE = "DELE";
   static const String ERET = "ERET";

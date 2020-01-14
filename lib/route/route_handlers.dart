@@ -24,6 +24,8 @@ import 'package:mib/ui/page/print/checkout_slip/print_checkout_slip_page.dart';
 import 'package:mib/ui/page/print/checkout_slip/print_checkout_slip_presenter.dart';
 import 'package:mib/ui/page/print/print_delivery_slip_page.dart';
 import 'package:mib/ui/page/print/print_delivery_slip_presenter.dart';
+import 'package:mib/ui/page/print/vansales_slip/print_vansales_slip_page.dart';
+import 'package:mib/ui/page/print/vansales_slip/print_vansales_slip_presenter.dart';
 import 'package:mib/ui/page/profile/profile_page.dart';
 import 'package:mib/ui/page/profile/profile_presenter.dart';
 import 'package:mib/ui/page/route/route_page.dart';
@@ -38,6 +40,10 @@ import 'package:mib/ui/page/sync/sync_page.dart';
 import 'package:mib/ui/page/sync/sync_presenter.dart';
 import 'package:mib/ui/page/task_list/task_list_page.dart';
 import 'package:mib/ui/page/task_list/task_list_presenter.dart';
+import 'package:mib/ui/page/vansales/vansales_page.dart';
+import 'package:mib/ui/page/vansales/vansales_presenter.dart';
+import 'package:mib/ui/page/vansales_summary/vansales_summary_page.dart';
+import 'package:mib/ui/page/vansales_summary/vansales_summary_presenter.dart';
 import 'package:mib/ui/page/visit_summary/visit_summary_page.dart';
 import 'package:mib/ui/page/visit_summary/visit_summary_presenter.dart';
 import 'package:mib/ui/page/visit_summary_detail/visit_summary_detail_page.dart';
@@ -307,5 +313,41 @@ PageBuilder routePlanDetailHandler = PageBuilder(builder: (bundle) {
             ..onEvent(RoutePlanDetailEvent.InitData)),
     ],
     child: RoutePlanDetailPage(),
+  );
+});
+
+PageBuilder vanSalesHandler = PageBuilder(builder: (bundle) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          builder: (context) => new VanSalesPresenter()
+            ..setBundle(bundle)
+            ..onEvent(VanSalesEvent.InitData)),
+    ],
+    child: VanSalesPage(),
+  );
+});
+
+PageBuilder vanSalesSummaryHandler = PageBuilder(builder: (bundle) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          builder: (context) => new VanSalesSummaryPresenter()
+            ..setBundle(bundle)
+            ..onEvent(VanSalesSummaryEvent.InitData)),
+    ],
+    child: VanSalesSummaryPage(),
+  );
+});
+
+PageBuilder printVanSalesSlipHandler = PageBuilder(builder: (bundle) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          builder: (context) => new PrintVanSalesSlipPresenter()
+            ..setBundle(bundle)
+            ..onEvent(PrintVanSalesSlipEvent.InitData)),
+    ],
+    child: PrintVanSalesSlipPage(),
   );
 });

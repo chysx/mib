@@ -11,7 +11,9 @@ import 'package:mib/common/dictionary.dart';
 class BaseProductInfo {
    String code;
    String name;
+   /// 该变量在库存相关逻辑中也表示StockCs
    int plannedCs = 0;
+   /// 该变量在库存相关逻辑中也表示StockEa
    int plannedEa = 0;
    int actualCs = 0;
    int actualEa = 0;
@@ -40,9 +42,14 @@ class BaseProductInfo {
    double depositCs = 0.0;
    double depositEa = 0.0;
 
+   ///***********************主要用于VanSales模块*************************///
+   int salesAbleCs = 0;
+   int salesAbleEa = 0;
+   ///***********************主要用于VanSales模块*************************///
 
 
-    String getPlanShowStr(String productUnitValue){
+
+   String getPlanShowStr(String productUnitValue){
       if(productUnitValue == ProductUnit.CS_EA){
          return '$plannedCs/$plannedEa';
       }else if (productUnitValue == ProductUnit.CS){
@@ -104,8 +111,8 @@ class BaseProductInfo {
      int totalCs = 0;
      int totalEa = 0;
      for(BaseProductInfo info in productList){
-       totalCs += info.plannedCs;
-       totalEa += info.plannedEa;
+       totalCs += info.plannedCs ?? 0;
+       totalEa += info.plannedEa ?? 0;
      }
      return '$totalCs/$totalEa';
    }
@@ -153,7 +160,7 @@ class BaseProductInfo {
          ..plannedCs += info.plannedCs ?? 0
            ..plannedEa += info.plannedEa ?? 0
            ..actualCs += info.actualCs ?? 0
-           ..actualEa += info.plannedEa ?? 0
+           ..actualEa += info.actualEa ?? 0
            ..basePrice += info.basePrice ?? 0
            ..netPrice += info.netPrice ?? 0
            ..discount += info.discount ?? 0

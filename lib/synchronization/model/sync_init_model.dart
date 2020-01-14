@@ -105,6 +105,9 @@ class SyncInitModel extends AbstractSyncDownloadModel {
     tableKeyBeanList.add(new TableKeyBean("DSD_T_Visit", ["VisitId"]));
     tableKeyBeanList.add(new TableKeyBean("DSD_T_DeliveryHeader", ["DeliveryNo"]));
     tableKeyBeanList.add(new TableKeyBean("DSD_T_DeliveryItem", ["DeliveryNo", "ProductCode", "ProductUnit","ItemSequence"]));
+
+    tableKeyBeanList.add(new TableKeyBean("DSD_M_ShipmentVanSalesRoute", ["ShipmentNo", "AccountNumber", "Status"]));
+
     return tableKeyBeanList;
   }
 }

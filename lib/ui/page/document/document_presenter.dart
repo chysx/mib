@@ -1,5 +1,6 @@
 import 'package:mib/application.dart';
 import 'package:mib/common/constant.dart';
+import 'package:mib/common/dictionary.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_header_entity.dart';
 import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/route/page_builder.dart';
@@ -51,10 +52,16 @@ class DocumentPresenter extends EventNotifier<DocumentEvent> {
     List<DSD_T_DeliveryHeader_Entity> deliveryList = await Application.database.tDeliveryHeaderDao.findEntityByCon(shipmentNo, accountNumber);
     for(DSD_T_DeliveryHeader_Entity entity in deliveryList) {
       DocumentInfo info = new DocumentInfo();
-      info.name = 'Delivery Slip';
       info.deliveryNo = entity.DeliveryNo;
-      info.printType = PrintModuleType.DELIVERY_SLIP;
+      if(entity.DeliveryType == TaskType.Delivery){
+        info.name = 'Delivery Slip';
+        info.printType = PrintModuleType.DELIVERY_SLIP;
+      }else if(entity.DeliveryType == TaskType.VanSales){
+        info.name = 'Sales Receipt';
+        info.printType = PrintModuleType.SALE_RECEIPT;
+      }
       documentList.add(info);
+
     }
   }
 
@@ -65,7 +72,14 @@ class DocumentPresenter extends EventNotifier<DocumentEvent> {
       FragmentArg.DELIVERY_ACCOUNT_NUMBER: accountNumber,
       FragmentArg.TASK_CUSTOMER_NAME: customerName,
     };
-    Navigator.pushNamed(context, PageName.print_delivery_slip.toString(),arguments: bundle);
+
+    String page;
+    if(info.printType == PrintModuleType.DELIVERY_SLIP){
+      page = PageName.print_delivery_slip.toString();
+    }else if (info.printType == PrintModuleType.SALE_RECEIPT) {
+      page = PageName.print_van_sales_slip.toString();
+    }
+    Navigator.pushNamed(context, page,arguments: bundle);
 
   }
 
