@@ -158,7 +158,7 @@ class DeliverySummaryPresenter extends EventNotifier<DeliverySummaryEvent> {
   }
 
   priceCalculate(BuildContext context) {
-    PriceManager.start(context: context,productList: productList,
+    PriceManager.start(context: context,productList: productList,accountNumber: accountNumber,
       onSuccessSync: (result){
         Fluttertoast.showToast(msg: 'Successed');
         PriceConvertUtil.onlineToDelivery(result, DeliveryModel().deliveryHeader, DeliveryModel().deliveryItemList);

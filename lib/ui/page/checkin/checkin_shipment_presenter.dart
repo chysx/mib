@@ -67,8 +67,13 @@ class CheckInShipmentPresenter extends EventNotifier<CheckInShipmentEvent> {
 
   fillShipmentCustomerData() async {
     for (ShipmentInfo shipmentInfo in shipmentInfoList) {
-      List<CustomerInfo> list =
-          await RouteManager.getCustomerInfoListByDelivery(shipmentInfo.no);
+      List<CustomerInfo> list;
+      if(shipmentInfo.type == ShipmentType.DELIVERY){
+        list = await RouteManager.getCustomerInfoListByDelivery(shipmentInfo.no);
+      }else if(shipmentInfo.type == ShipmentType.VANSALES){
+        list = await RouteManager.getCustomerInfoListByVanSales(shipmentInfo.no);
+      }
+
       int count = 0;
       for (CustomerInfo info in list) {
         if (info.isVisitComplete) {

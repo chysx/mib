@@ -16,7 +16,7 @@ class DbUtil{
   static void copyDb(){
     if(!Platform.isAndroid) return;
 
-    String packageName = 'com.ebest.dsd';
+    String packageName = 'com.ebest.mib';
     String appDocPath = DirectoryUtil.getAppDocPath();
     String dbPath = appDocPath.substring(0,appDocPath.lastIndexOf(packageName)) + packageName + '/databases/' + Constant.DB_NAME;
     String dstDir = DirectoryUtil.getStoragePath(category: Constant.WORK_DB);

@@ -1,5 +1,6 @@
 import 'package:mib/application.dart';
 import 'package:mib/common/dictionary.dart';
+import 'package:mib/db/manager/delivery_manager.dart';
 import 'package:mib/db/table/entity/dsd_m_delivery_item_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_item_entity.dart';
@@ -21,6 +22,7 @@ class VisitCancelUtil {
     DeliveryModel().deliveryHeader = header;
     DeliveryModel().deliveryItemList = tItemList;
     await DeliveryModel().saveDeliveryHeader();
+    DeliveryManager.fillItemItemSequence(tItemList);
     await DeliveryModel().saveDeliveryItems();
     DeliveryModel().clear();
   }
@@ -34,7 +36,6 @@ class VisitCancelUtil {
         addEntity.DeliveryNo = header.DeliveryNo;
         addEntity.ProductCode = entity.ProductCode;
         addEntity.ProductUnit = entity.ProductUnit;
-        addEntity.ItemSequence = entity.ItemSequence;
         addEntity.PlanQty = entity.PlanQty;
         addEntity.ActualQty = "0";
         addEntity.CreateUser = Application.user.userCode;
@@ -42,7 +43,6 @@ class VisitCancelUtil {
         addEntity.dirty = SyncDirtyStatus.DEFAULT;
         addEntity.IsFree = entity.IsFree;
         addEntity.Reason = reasonValue;
-        addEntity.ItemSequence = entity.ItemSequence;
         addEntity.ItemNumber = entity.ItemNumber;
         addEntity.ItemCategory = entity.ItemCategory;
 

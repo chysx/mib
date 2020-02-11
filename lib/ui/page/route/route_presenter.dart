@@ -277,8 +277,14 @@ class RoutePresenter extends EventNotifier<RouteEvent> {
       FragmentArg.TASK_CUSTOMER_TYPE: info.customerType,
       FragmentArg.TASK_IS_BLOCK: info.block,
     };
-    material.Navigator.pushNamed(context, PageName.task_list.toString(),arguments: bundle);
+    await material.Navigator.pushNamed(context, PageName.task_list.toString(),arguments: bundle);
 
+    onResume();
+
+  }
+
+  void onResume() {
+    onEvent(RouteEvent.InitData);
   }
 
   void onClickNavigation(material.BuildContext context, CustomerInfo info) {

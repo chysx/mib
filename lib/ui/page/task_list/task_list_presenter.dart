@@ -194,6 +194,8 @@ class TaskListPresenter extends EventNotifier<TaskListEvent> {
         vansales.no = tVanSales.DeliveryNo;
         if(tVanSales.DeliveryStatus == DeliveryStatus.SALES_VALUE){
           vansales.status = TaskDeliveryStatus.Complete;
+        }else if(tVanSales.DeliveryStatus == DeliveryStatus.CANCEL_VALUE){
+          vansales.status = TaskDeliveryStatus.Cancel;
         }
       }
     }
@@ -306,6 +308,7 @@ class TaskListPresenter extends EventNotifier<TaskListEvent> {
     String readOnly;
     switch (info.status){
       case TaskDeliveryStatus.Complete:
+      case TaskDeliveryStatus.Cancel:
         readOnly = ReadyOnly.TRUE;
         break;
       default:

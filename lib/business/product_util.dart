@@ -149,10 +149,10 @@ class ProductUtil {
     (info.basePriceCs != null && info.basePriceCs != 0) ?
     info.basePriceCs : info.basePriceEa;
 
-    info.netPrice = info.netPriceCs ?? 0.0 + info.netPriceEa ?? 0;
-    info.discount = info.discountCs ?? 0.0 + info.discountEa ?? 0.0;
-    info.tax = info.taxCs ?? 0.0 + info.taxEa ?? 0.0;
-    info.deposit = info.depositCs ?? 0.0 + info.depositEa ?? 0.0;
+    info.netPrice = (info.netPriceCs ?? 0.0) + (info.netPriceEa ?? 0);
+    info.discount = (info.discountCs ?? 0.0) + (info.discountEa ?? 0.0);
+    info.tax = (info.taxCs ?? 0.0) + (info.taxEa ?? 0.0);
+    info.deposit = (info.depositCs ?? 0.0) + (info.depositEa ?? 0.0);
 
   }
 }

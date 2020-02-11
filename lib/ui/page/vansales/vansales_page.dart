@@ -290,7 +290,8 @@ class VanSalesPage extends StatelessWidget {
 //                                              presenter.showReasonDialog(context, info);
                                             },
                                             child: Offstage(
-                                                offstage: info.isEqual(),
+//                                                offstage: info.isEqual(),
+                                                offstage: true,
                                                 child: Icon(Icons.info,color: info.isRedReasonIcon() ? Colors.red : Colors.grey,size: 18,)),
                                           ),
                                         ),
@@ -391,7 +392,8 @@ class VanSalesPage extends StatelessWidget {
 //                                              presenter.showReasonDialog(context, info);
                                             },
                                             child: Offstage(
-                                                offstage: info.isEqual(),
+//                                                offstage: info.isEqual(),
+                                                offstage: true,
                                                 child: Icon(Icons.info,color: info.isRedReasonIcon() ? Colors.red : Colors.grey,size: 18,)),
                                           ),
                                         ),

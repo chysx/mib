@@ -197,6 +197,8 @@ class TruckStockManager {
       await Application.database.tTruckStockDao.insertEntity(eaTruckStock);
     }
 
+    String changeAction = action.split('_')[0];
+
     DSD_T_TruckStockTracking_Entity csAdd = new DSD_T_TruckStockTracking_Entity.Empty();
     csAdd.Id = new Uuid().v1();
     csAdd.VisitId = visitId;
@@ -205,9 +207,10 @@ class TruckStockManager {
     csAdd.TrackingTime = DateUtil.getDateStrByDateTime(DateTime.now());
     csAdd.ProductCode = productCode;
     csAdd.ProductUnit = ProductUnit.CS;
-    csAdd.ChangeAction = action;
+    csAdd.ChangeAction = changeAction;
     csAdd.FromQty = csStockQtyFrom;
     csAdd.ToQty = csStockQtyTo;
+    csAdd.ChangeQuantity = 0;
     csAdd.CreateUser = Application.user.userCode;
     csAdd.CreateTime = DateUtil.getDateStrByDateTime(DateTime.now());
     csAdd.dirty = SyncDirtyStatus.DEFAULT;
@@ -221,9 +224,10 @@ class TruckStockManager {
     eaAdd.TrackingTime = DateUtil.getDateStrByDateTime(DateTime.now());
     eaAdd.ProductCode = productCode;
     eaAdd.ProductUnit = ProductUnit.EA;
-    eaAdd.ChangeAction = action;
+    eaAdd.ChangeAction = changeAction;
     eaAdd.FromQty = eaStockQtyFrom;
     eaAdd.ToQty = eaStockQtyTo;
+    eaAdd.ChangeQuantity = 0;
     eaAdd.CreateUser = Application.user.userCode;
     eaAdd.CreateTime = DateUtil.getDateStrByDateTime(DateTime.now());
     eaAdd.dirty = SyncDirtyStatus.DEFAULT;

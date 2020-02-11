@@ -349,20 +349,23 @@ class _VanSalesSummarySate extends State<VanSalesSummaryPage> {
 //                          ],
 //                        ),
 //                      ),
-                          Container(
+                          Offstage(
+                            offstage: presenter.isReadOnly,
+                            child: Container(
 //                        padding: EdgeInsets.only(
 //                            left: 10, right: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      presenter.priceCalculate(context);
-                                    },
-                                    child: Text('Calute'),
-                                  ),
-                                )
-                              ],
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: RaisedButton(
+                                      onPressed: () {
+                                        presenter.priceCalculate(context);
+                                      },
+                                      child: Text('Calute'),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],

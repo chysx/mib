@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/model/base_product_info.dart';
@@ -6,6 +7,7 @@ import 'package:mib/net/api_service.dart';
 import 'package:mib/price/price_request_bean.dart';
 import 'package:mib/price/price_response_bean.dart' as response;
 import 'package:mib/ui/dialog/loading_dialog.dart';
+import 'package:mib/utils/file_util.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
 ///  All rights reserved.
@@ -40,13 +42,13 @@ class PriceManager {
     return requestBean;
   }
 
-  static PriceRequestBean createRequest(List<BaseProductInfo> productList) {
+  static PriceRequestBean createRequest(List<BaseProductInfo> productList,String accountNumber) {
 
     PriceRequestBean requestBean = new PriceRequestBean();
     requestBean
       ..token = '95320bca-b78d-4de8-b0b6-4cd07a3727ba'
-      ..customerRef = 'CM02143010104'
-      ..calcDate = '2019-11-07'
+      ..customerRef = accountNumber
+      ..calcDate = DateUtil.getDateStrByDateTime(DateTime.now(), format: DateFormat.YEAR_MONTH_DAY)
       ..bottlersCode = 'MIB';
 
     requestBean.products = [];
@@ -68,17 +70,20 @@ class PriceManager {
       requestBean.products.add(product);
     }
 
+    FileUtil.writeString(requestBean.toJson());
+
     return requestBean;
   }
 
 
-  static Future start({OnSuccess onSuccessSync, OnFail onFailSync, BuildContext context,List<BaseProductInfo> productList}) async {
+  static Future start({OnSuccess onSuccessSync, OnFail onFailSync, BuildContext context,List<BaseProductInfo> productList,String accountNumber}) async {
 //    HttpService().configDioByUrl('https://mibsfa.ebestmobile.net:9999');
     if (context != null) LoadingDialog.show(context,msg: 'pricing...');
     try{
-      Response<Map<String, dynamic>> reponse = await ApiService.getPriceCheck(createRequest(productList));
+      Response<Map<String, dynamic>> reponse = await ApiService.getPriceCheck(createRequest(productList,accountNumber));
       response.PriceResponseBean result = response.PriceResponseBean.fromJson(reponse.data);
       print(result.toJson());
+//      FileUtil.writeString(result.toJson());
       onSuccessSync(result);
     }catch(e) {
       print(e.toString());

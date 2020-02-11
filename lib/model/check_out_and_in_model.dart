@@ -76,7 +76,7 @@ class CheckOutAndInModel {
 
     if(emptyList != null){
       for (BaseProductInfo info in emptyList) {
-        if (info.actualCs != 0) {
+        if ((info.actualCs??0) != 0) {
           DSD_T_ShipmentItem_Entity add = new DSD_T_ShipmentItem_Entity.Empty();
 
           add.HeaderId = shipmentHeader.Id;
@@ -100,7 +100,7 @@ class CheckOutAndInModel {
 
     for (BaseProductInfo info in productList) {
 //      if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.CS) {
-        if (info.plannedCs != 0 || info.actualCs != 0) {
+        if ((info.plannedCs??0) != 0 || (info.actualCs??0) != 0) {
           DSD_T_ShipmentItem_Entity add = new DSD_T_ShipmentItem_Entity.Empty();
 
           add.HeaderId = shipmentHeader.Id;
@@ -121,7 +121,7 @@ class CheckOutAndInModel {
 //      }
 
 //      if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.EA) {
-        if (info.plannedEa != 0 || info.actualEa != 0) {
+        if ((info.plannedEa??0) != 0 || (info.actualEa??0) != 0) {
           DSD_T_ShipmentItem_Entity add = new DSD_T_ShipmentItem_Entity.Empty();
 
           add.HeaderId = shipmentHeader.Id;

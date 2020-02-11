@@ -1,5 +1,6 @@
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/dictionary.dart';
+import 'package:mib/db/manager/delivery_manager.dart';
 import 'package:mib/db/manager/truck_stock_manager.dart';
 import 'package:mib/db/table/entity/dsd_m_delivery_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_shipment_header_entity.dart';
@@ -139,7 +140,7 @@ class DeliveryModel {
 
     /***********************************Empty Product********************************************/
     for (BaseProductInfo info in emptyList) {
-      if (info.actualCs != 0) {
+      if ((info.actualCs??0) != 0) {
         DSD_T_DeliveryItem_Entity add = new DSD_T_DeliveryItem_Entity.Empty();
 
         add.DeliveryNo = _deliveryNo;
@@ -150,7 +151,6 @@ class DeliveryModel {
         add.DifferenceQty = (info.plannedCs - info.actualCs).toString();
         add.Reason = "24";
         add.IsReturn = IsReturn.TRUE;
-        add.ItemSequence = '2';
         add.CreateUser = Application.user.userCode;
         add.CreateTime = notTime;
         add.dirty = SyncDirtyStatus.DEFAULT;
@@ -169,7 +169,7 @@ class DeliveryModel {
 
     for (BaseProductInfo info in productList) {
       if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.CS) {
-        if (info.plannedCs != 0 || info.actualCs != 0) {
+        if (/*(info.plannedCs??0) != 0 || */(info.actualCs??0) != 0) {
           DSD_T_DeliveryItem_Entity add = new DSD_T_DeliveryItem_Entity.Empty();
 
           add.DeliveryNo = _deliveryNo;
@@ -183,7 +183,6 @@ class DeliveryModel {
           add.ActualQty = info.actualCs.toString();
           add.DifferenceQty = (info.plannedCs - info.actualCs).toString();
           add.Reason = info.reasonValue;
-          add.ItemSequence = '2';
           add.CreateUser = Application.user.userCode;
           add.CreateTime = notTime;
           add.dirty = SyncDirtyStatus.DEFAULT;
@@ -200,7 +199,7 @@ class DeliveryModel {
       }
 
       if (productUnitValue == ProductUnit.CS_EA || productUnitValue == ProductUnit.EA) {
-        if (info.plannedEa != 0 || info.actualEa != 0) {
+        if (/*(info.plannedEa??0) != 0 || */(info.actualEa??0) != 0) {
           DSD_T_DeliveryItem_Entity add = new DSD_T_DeliveryItem_Entity.Empty();
 
           add.DeliveryNo = _deliveryNo;
@@ -214,7 +213,6 @@ class DeliveryModel {
           add.ActualQty = info.actualEa.toString();
           add.DifferenceQty = (info.plannedEa - info.actualEa).toString();
           add.Reason = info.reasonValue;
-          add.ItemSequence = '2';
           add.CreateUser = Application.user.userCode;
           add.CreateTime = notTime;
           add.dirty = SyncDirtyStatus.DEFAULT;
@@ -239,6 +237,8 @@ class DeliveryModel {
     await saveStock(StockType.CANCEL, deliveryHeader.ShipmentNo, _deliveryNo);
     await Application.database.tDeliveryItemDao.deleteByNo(_deliveryNo);
 
+
+    await DeliveryManager.fillItemItemSequence(deliveryItemList);
     //增加数据
     await Application.database.tDeliveryItemDao.insertEntityList(deliveryItemList);
     await saveStock(StockType.DO, deliveryHeader.ShipmentNo, _deliveryNo);
