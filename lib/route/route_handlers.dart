@@ -12,6 +12,10 @@ import 'package:mib/ui/page/checkout/checkout_page.dart';
 import 'package:mib/ui/page/checkout/checkout_presenter.dart';
 import 'package:mib/ui/page/checkout/checkout_shipment_page.dart';
 import 'package:mib/ui/page/checkout/checkout_shipment_presenter.dart';
+import 'package:mib/ui/page/darshboard/daily_page.dart';
+import 'package:mib/ui/page/darshboard/daily_presenter.dart';
+import 'package:mib/ui/page/darshboard/inventory_page.dart';
+import 'package:mib/ui/page/darshboard/inventory_presenter.dart';
 import 'package:mib/ui/page/delivery/delivery_page.dart';
 import 'package:mib/ui/page/delivery/delivery_presenter.dart';
 import 'package:mib/ui/page/delivery_summary/delivery_summary_page.dart';
@@ -36,6 +40,8 @@ import 'package:mib/ui/page/route_plan_detail/route_plan_detail_page.dart';
 import 'package:mib/ui/page/route_plan_detail/route_plan_detail_presenter.dart';
 import 'package:mib/ui/page/settings/settings_page.dart';
 import 'package:mib/ui/page/settings/settings_presenter.dart';
+import 'package:mib/ui/page/start_of_day/start_of_day_page.dart';
+import 'package:mib/ui/page/start_of_day/start_of_day_presenter.dart';
 import 'package:mib/ui/page/sync/sync_page.dart';
 import 'package:mib/ui/page/sync/sync_presenter.dart';
 import 'package:mib/ui/page/task_list/task_list_page.dart';
@@ -349,5 +355,39 @@ PageBuilder printVanSalesSlipHandler = PageBuilder(builder: (bundle) {
             ..onEvent(PrintVanSalesSlipEvent.InitData)),
     ],
     child: PrintVanSalesSlipPage(),
+  );
+});
+
+PageBuilder startOfDayHandler = PageBuilder(builder: (bundle) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          builder: (context) => new StartOfDayPresenter()
+            ..onEvent(StartOfDayEvent.InitData)),
+    ],
+    child: StartOfDayPage(),
+  );
+});
+
+PageBuilder dailyHandler = PageBuilder(builder: (bundle) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          builder: (context) => new DailyPresenter()
+            ..onEvent(DailyEvent.InitData)),
+    ],
+    child: DailyPage(),
+  );
+});
+
+PageBuilder inventoryHandler = PageBuilder(builder: (bundle) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          builder: (context) => new InventoryPresenter()
+            ..setBundle(bundle)
+            ..onEvent(InventoryEvent.InitData)),
+    ],
+    child: InventoryPage(),
   );
 });

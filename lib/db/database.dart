@@ -17,12 +17,15 @@ import 'package:mib/db/table/entity/dsd_m_shipment_item_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_shipment_sales_route_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_system_config_entity.dart';
 import 'package:mib/db/table/entity/dsd_m_truck_entity.dart';
+import 'package:mib/db/table/entity/dsd_m_truckchecklist_entity.dart';
+import 'package:mib/db/table/entity/dsd_t_daytimetracking_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_delivery_item_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_shipment_header_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_shipment_item_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_truck_stock_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_truck_stock_tracking_entity.dart';
+import 'package:mib/db/table/entity/dsd_t_truckcheckresult_entity.dart';
 import 'package:mib/db/table/entity/dsd_t_visit_entity.dart';
 import 'package:mib/db/table/entity/md_account_entity.dart';
 import 'package:mib/db/table/entity/md_contact_entity.dart';
@@ -42,12 +45,15 @@ import 'dao/dsd_m_shipment_header_dao.dart';
 import 'dao/dsd_m_shipment_item_dao.dart';
 import 'dao/dsd_m_system_config_dao.dart';
 import 'dao/dsd_m_truck_dao.dart';
+import 'dao/dsd_m_truckchecklist_dao.dart';
+import 'dao/dsd_t_daytimetracking_dao.dart';
 import 'dao/dsd_t_delivery_header_dao.dart';
 import 'dao/dsd_t_delivery_item_dao.dart';
 import 'dao/dsd_t_shipment_header_dao.dart';
 import 'dao/dsd_t_shipment_item_dao.dart';
 import 'dao/dsd_t_truck_stock_dao.dart';
 import 'dao/dsd_t_truck_stock_tracking_dao.dart';
+import 'dao/dsd_t_truckcheckresult_dao.dart';
 import 'dao/dsd_t_visit_dao.dart';
 import 'dao/md_account_dao.dart';
 import 'dao/md_contact_dao.dart';
@@ -88,6 +94,9 @@ part 'database.g.dart'; // the generated code will be there
   MD_Person_Entity,
   MD_Product_Entity,
   DSD_M_ShipmentVanSalesRoute_Entity,
+  DSD_M_TruckCheckList_Entity,
+  DSD_T_DayTimeTracking_Entity,
+  DSD_T_TruckCheckResult_Entity,
 ])
 abstract class AppDatabase extends FloorDatabase {
   AppLogDao get appLogDao;
@@ -114,6 +123,9 @@ abstract class AppDatabase extends FloorDatabase {
   MD_Person_Dao personDao;
   MD_Product_Dao productDao;
   DSD_M_ShipmentVanSalesRoute_Dao shipmentVanDao;
+  DSD_M_TruckCheckList_Dao mCheckListDao;
+  DSD_T_DayTimeTracking_Dao dayTimeTrackDao;
+  DSD_T_TruckCheckResult_Dao tCheckResultDao;
 
 }
 

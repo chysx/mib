@@ -158,6 +158,9 @@ class CheckOutAndInModel {
         ..Driver = Application.user.userCode
         ..TruckId = mShipmentHeader.TruckId
         ..Odometer = 0
+        ..CheckerConfirm = 0
+        ..CashierConfirm = 0
+        ..GKConfirm = 0
         ..CreateUser = Application.user.userCode
         ..CreateTime = notTime
         ..ScanResult = '0'

@@ -99,6 +99,10 @@ class SyncInitModel extends AbstractSyncDownloadModel {
     tableKeyBeanList.add(new TableKeyBean("DSD_T_TruckStockTracking", ["id"]));
 
     tableKeyBeanList.add(new TableKeyBean("DSD_M_Truck", ["id"]));
+    tableKeyBeanList.add(new TableKeyBean("DSD_M_TruckCheckList", ["Id"]));
+    tableKeyBeanList.add(new TableKeyBean("DSD_T_DayTimeTracking", ["ID"]));
+
+
     tableKeyBeanList.add(new TableKeyBean("DSD_M_DeliveryHeader", ["DeliveryNo"]));
     tableKeyBeanList.add(new TableKeyBean("DSD_M_DeliveryItem", ["DeliveryNo", "ProductCode", "ProductUnit","ItemSequence"]));
 

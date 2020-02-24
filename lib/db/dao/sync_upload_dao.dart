@@ -22,6 +22,9 @@ abstract class SyncUploadDao {
   @Query('SELECT * FROM sync_upload WHERE type = :type')
   Future<List<SyncUploadEntity>> findEntityByType(String type);
 
+  @Query('SELECT * FROM sync_upload WHERE status = :status and type = :type')
+  Future<List<SyncUploadEntity>> findEntityByStatusAndType(String status,String type);
+
   @insert
   Future<void> insertEntity(SyncUploadEntity entity);
 

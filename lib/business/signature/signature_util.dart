@@ -13,7 +13,10 @@ import 'package:uuid/uuid.dart';
 ///  Date:         2019-12-11 16:00
 
 class SignatureUtil {
-   static String createSignaturePath(int bizModel) {
+  static String SUCCESS = "1";
+
+
+  static String createSignaturePath(int bizModel) {
      String day = DateUtil.getDateStrByDateTime(DateTime.now(), format: DateFormat.YEAR_MONTH_DAY);
     String uuid = Uuid().v1().replaceAll("-","");
     return '$day-$bizModel-$uuid.png';

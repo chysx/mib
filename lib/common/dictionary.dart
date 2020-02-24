@@ -125,6 +125,11 @@ class CheckInDiffReason {
   static const String CATEGORY = "CIDiffReason";
 }
 
+class CheckInNoAction {
+ static final String CATEGORY = "CheckInNoAction";
+ static final String NA = "NA";
+}
+
 class CancelDelReasonExZF61 {
   static const String CATEGORY = "CancelDelReasonExZF61";
 }
@@ -146,4 +151,16 @@ class BizModel {
   static int CHECK_OUT_FINANCE = 14;
   static int CHECK_OUT_INVENTORY = 15;
   static int CHECK_OUT_FRAGMENT = 16;
+}
+
+ class CheckType {
+   static int BOOLE = 1;
+   static int MULTISELECT = 2;
+   static int SINGLESELECT = 3;
+   static int INPUT = 4;
+}
+
+class TimeTrackingType {
+ static  String SOD = "1";
+ static  String EOD = "2";
 }

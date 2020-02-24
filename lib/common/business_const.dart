@@ -77,6 +77,21 @@ class Empty {
   static const String FALSE = "False";
 }
 
+///
+/// 根据配置控制
+///
+class MustToDo {
+  ///
+  /// 必做项
+  ///
+  static const String TRUE = "True";
+
+  ///
+  /// 非必做项
+  ///
+  static const String FALSE = "False";
+}
+
 class ProductUnit {
   static const String CS_EA = "CS_EA";
   static const String CS = "CS";

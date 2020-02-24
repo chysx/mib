@@ -37,6 +37,10 @@ abstract class SignatureLogic {
     progressRoleSignOff(context);
   }
 
+   void showByDriverSignOff(BuildContext context) async {
+     progressDriverSignOff(context);
+   }
+
    Future progressRoleSignOff(BuildContext context) async {
      Role role = await SignatureUtil.getRole(getRoleType(), accountNumber);
      String authorization = isAuthorization() ? CommonFunction.CHECKER_AUTHORIZATION_NEED : CommonFunction.CHECKER_AUTHORIZATION_NOTNEED;

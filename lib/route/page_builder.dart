@@ -53,6 +53,9 @@ enum PageName {
   van_sales,
   van_sales_summary,
   print_van_sales_slip,
+  start_of_day,
+  daily,
+  inventory,
 }
 
 

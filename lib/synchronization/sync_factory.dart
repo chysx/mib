@@ -6,6 +6,7 @@ import 'package:mib/synchronization/sync/sync_type.dart';
 
 import 'base/abstract_sync_mode.dart';
 import 'model/sync_init_model.dart';
+import 'model/sync_start_of_day_model.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
 ///  All rights reserved.
@@ -32,6 +33,9 @@ class SyncFactory {
         break;
       case SyncType.SYNC_UPLOAD_VISIT:
         syncMode = new SyncUploadVisitModel(syncType);
+        break;
+      case SyncType.SYNC_UPLOAD_START_OF_DAY:
+        syncMode = new SyncStartOfDayModel(syncType);
         break;
       default:
         break;

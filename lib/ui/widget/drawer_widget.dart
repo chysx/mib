@@ -18,48 +18,47 @@ class DrawerWidget extends StatelessWidget {
   final String page;
 
   DrawerWidget({this.page, Key key}) : super(key: key) {
-    MenuInfo menuInfo1 = new MenuInfo();
-    menuInfo1
+
+    List<MenuInfo> menuTempList = [
+
+      new MenuInfo()
       ..page = ConstantMenu.CHECK_OUT
       ..title = ConstantMenu.CHECK_OUT
-      ..imgPath = 'assets/imgs/menu_check_out.png';
+      ..imgPath = 'assets/imgs/menu_check_out.png',
 
-    MenuInfo menuInfo2 = new MenuInfo();
-    menuInfo2
-      ..page = ConstantMenu.ROUTE
-      ..title = ConstantMenu.ROUTE
-      ..imgPath = 'assets/imgs/menu_route.png';
+      new MenuInfo()
+        ..page = ConstantMenu.ROUTE
+        ..title = ConstantMenu.ROUTE
+        ..imgPath = 'assets/imgs/menu_route.png',
 
-    MenuInfo menuInfo3 = new MenuInfo();
-    menuInfo3
+      new MenuInfo()
       ..page = ConstantMenu.CHECK_IN
       ..title = ConstantMenu.CHECK_IN
-      ..imgPath = 'assets/imgs/menu_check_in.png';
+      ..imgPath = 'assets/imgs/menu_check_in.png',
 
-    MenuInfo menuInfo4 = new MenuInfo();
-    menuInfo4
+      new MenuInfo()
+        ..page = ConstantMenu.DARSHBOARD
+        ..title = ConstantMenu.DARSHBOARD
+        ..imgPath = 'assets/imgs/menu_daily_summary.png',
+
+      new MenuInfo()
       ..page = ConstantMenu.SYNC
       ..title = ConstantMenu.SYNC
-      ..imgPath = 'assets/imgs/menu_sync.png';
+      ..imgPath = 'assets/imgs/menu_sync.png',
 
-    MenuInfo menuInfo5 = new MenuInfo();
-    menuInfo5
+      new MenuInfo()
       ..page = ConstantMenu.SETTING
       ..title = ConstantMenu.SETTING
-      ..imgPath = 'assets/imgs/menu_setting.png';
+      ..imgPath = 'assets/imgs/menu_setting.png',
 
-    MenuInfo menuInfo6 = new MenuInfo();
-    menuInfo6
+      new MenuInfo()
       ..page = ConstantMenu.LOGOUT
       ..title = ConstantMenu.LOGOUT
-      ..imgPath = 'assets/imgs/menu_log_out.png';
+      ..imgPath = 'assets/imgs/menu_log_out.png'
 
-    menuInfoList.add(menuInfo1);
-    menuInfoList.add(menuInfo2);
-    menuInfoList.add(menuInfo3);
-    menuInfoList.add(menuInfo4);
-    menuInfoList.add(menuInfo5);
-    menuInfoList.add(menuInfo6);
+    ];
+
+    menuInfoList.addAll(menuTempList);
 
     _setCurMenuInfo();
   }
@@ -89,6 +88,10 @@ class DrawerWidget extends StatelessWidget {
       }
       if (goPage == ConstantMenu.ROUTE) {
         Navigator.pushReplacementNamed(context, PageName.route.toString(),arguments: <String,dynamic>{});
+
+      }
+      if (goPage == ConstantMenu.DARSHBOARD) {
+        Navigator.pushReplacementNamed(context, PageName.daily.toString(),arguments: <String,dynamic>{});
 
       }
       if (goPage == ConstantMenu.SYNC) {

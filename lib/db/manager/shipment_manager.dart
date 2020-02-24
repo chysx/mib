@@ -1,11 +1,14 @@
 import 'package:mib/application.dart';
 import 'package:mib/common/business_const.dart';
 import 'package:mib/common/dictionary.dart';
+import 'package:mib/db/table/entity/dsd_m_shipment_header_entity.dart';
+import 'package:mib/db/table/entity/dsd_t_shipment_header_entity.dart';
 import 'package:mib/model/base_product_info.dart';
 import 'package:mib/model/shipment_info.dart';
 import 'package:mib/synchronization/sync/sync_dirty_status.dart';
 import 'package:mib/utils/sql_util.dart';
 import 'package:flustars/flustars.dart';
+import 'package:uuid/uuid.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
 ///  All rights reserved.
@@ -455,6 +458,87 @@ class ShipmentManager {
       result.add(info);
     }
     return result;
+  }
+
+  static Future<int> getCustomerList() async {
+    String sql = ''' 
+        SELECT
+            DISTINCT (AccountNumber) 
+        FROM
+            (SELECT
+                AccountNumber         
+            FROM
+                dsd_m_deliveryHeader t1                
+            JOIN
+                dsd_m_shipmentHeader t2                  
+                    ON t1.shipmentNo = t2.shipmentNo           
+            WHERE
+                t2.shipmentNo NOT IN                   (
+                    SELECT
+                        shipmentNo 
+                    FROM
+                        DSD_T_ShipmentHeader 
+                    WHERE
+                        status = 'CHKI'
+                )         
+            UNION
+            SELECT
+                AccountNumber         
+            FROM
+                dsd_m_shipmentVanSalesRoute t1                
+            JOIN
+                dsd_m_shipmentHeader t2                  
+                    ON t1.shipmentNo = t2.shipmentNo           
+            WHERE
+                t1.shipmentNo NOT IN                   (
+                    SELECT
+                        shipmentNo 
+                    FROM
+                        DSD_T_ShipmentHeader 
+                    WHERE
+                        status = 'CHKI'
+                )
+            )
+     ''';
+    SqlUtil.log(sql);
+    int result = 0;
+    var db = Application.database.database;
+    List<Map<String, dynamic>> list = await db.rawQuery(sql);
+    for (Map<String, dynamic> map in list) {
+      List values = map.values.toList();
+      result = values.length;
+      break;
+    }
+    return result;
+  }
+
+  static Future cancelCheckIn(String shipmentNo) async {
+    String nowTime = DateUtil.getDateStrByDateTime(new DateTime.now());
+    DSD_M_ShipmentHeader_Entity mShipmentHeader = await Application.database.mShipmentHeaderDao.findEntityByShipmentNo(shipmentNo, Valid.EXIST);
+    DSD_T_ShipmentHeader_Entity shipmentHeader = DSD_T_ShipmentHeader_Entity.Empty();
+    shipmentHeader
+      ..Id = new Uuid().v1()
+      ..ShipmentNo = shipmentNo
+      ..ShipmentType = mShipmentHeader.ShipmentType
+      ..ShipmentDate = DateUtil.getDateStrByTimeStr(nowTime,format: DateFormat.YEAR_MONTH_DAY)
+      ..ActionType = ActionType.CheckIn
+      ..Status = ShipmentStatus.CHKI
+      ..StartTime = nowTime
+      ..EndTime = nowTime
+      ..WarehouseCode = mShipmentHeader.WarehouseCode
+      ..Driver = Application.user.userCode
+      ..TruckId = mShipmentHeader.TruckId
+      ..Odometer = 0
+      ..CheckerConfirm = 0
+      ..CashierConfirm = 0
+      ..GKConfirm = 0
+      ..CreateUser = Application.user.userCode
+      ..CreateTime = nowTime
+      ..ScanResult = '0'
+      ..Manually = '0'
+      ..dirty = SyncDirtyStatus.DEFAULT;
+
+    await Application.database.tShipmentHeaderDao.insertEntity(shipmentHeader);
   }
 
 }

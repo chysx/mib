@@ -30,7 +30,7 @@ class SyncPage extends StatefulWidget {
 
 class _SyncState extends State<SyncPage> with SingleTickerProviderStateMixin {
   TabController tabController;
-  final List<Tab> myTabs = <Tab>[Tab(text: 'CheckOut'), Tab(text: 'Visit'), Tab(text: 'CheckIn')];
+  final List<Tab> myTabs = <Tab>[Tab(text: 'StartOfDay'),Tab(text: 'CheckOut'), Tab(text: 'Visit'), Tab(text: 'CheckIn')];
 
   @override
   void initState() {
@@ -42,6 +42,52 @@ class _SyncState extends State<SyncPage> with SingleTickerProviderStateMixin {
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+
+  Widget createStartOfDay(SyncPresenter presenter) {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.separated(
+            separatorBuilder: (context, index) {
+              return Divider(
+                height: 2,
+              );
+            },
+            itemCount: presenter.syncStartOfDay.length,
+            itemBuilder: (context, index) {
+              SyncInfo info = presenter.syncStartOfDay[index];
+              return Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: Text(
+                          info.name,
+                          style: TextStyles.normal,
+                          textAlign: TextAlign.left,
+                        )),
+                    Expanded(
+                        child: Text(
+                          info.getStatusMsg(),
+                          style: TextStyles.normal,
+                          textAlign: TextAlign.center,
+                        )),
+                    Expanded(
+                        child: Text(
+                          info.time,
+                          style: TextStyles.normal,
+                          textAlign: TextAlign.right,
+                        ))
+                  ],
+                ),
+              );
+            },
+          ),
+        )
+      ],
+    );
+    ;
   }
 
   Widget createCheckOut(SyncPresenter presenter) {
@@ -193,6 +239,7 @@ class _SyncState extends State<SyncPage> with SingleTickerProviderStateMixin {
               child: TabBarView(
                 controller: tabController,
                 children: <Widget>[
+                  createStartOfDay(presenter),
                   createCheckOut(presenter),
                   createVisit(presenter),
                   createCheckIn(presenter),

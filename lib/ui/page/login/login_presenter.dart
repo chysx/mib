@@ -125,6 +125,15 @@ class LoginPresenter extends EventNotifier<LoginEvent> {
     Map<String,dynamic> bundle = {};
     await Navigator.pushNamed(context, PageName.check_out_shipment.toString(),arguments: bundle);
 
+//    Map<String,dynamic> bundle = {};
+//    await Navigator.pushNamed(context, PageName.start_of_day.toString(),arguments: bundle);
+
+  }
+
+  Future<void> onClickStartOfDay(BuildContext context) async {
+    Map<String,dynamic> bundle = {};
+    await Navigator.pushNamed(context, PageName.start_of_day.toString(),arguments: bundle);
+
   }
 
   Future onClickSetting(BuildContext context) async {

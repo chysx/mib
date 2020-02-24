@@ -37,6 +37,9 @@ class Routers {
       PageName.van_sales: vanSalesHandler,
       PageName.van_sales_summary: vanSalesSummaryHandler,
       PageName.print_van_sales_slip: printVanSalesSlipHandler,
+      PageName.start_of_day: startOfDayHandler,
+      PageName.daily: dailyHandler,
+      PageName.inventory: inventoryHandler,
     };
     pageRoutes.forEach((pageName,pageBuilder){
       router.define(pageName.toString(), handler: Handler(handlerFunc:pageBuilder.getHandlerFunc()),transitionType: TransitionType.inFromLeft);

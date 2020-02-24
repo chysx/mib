@@ -15,6 +15,8 @@ class Constant {
 class ConstantMenu {
   static const String CHECK_OUT = 'Check Out';
   static const String CHECK_IN = 'Check In';
+  static const String DARSHBOARD = 'darshboard';
+  static const String DOCUMENT = 'document';
   static const String ROUTE = 'Route';
   static const String SYNC = 'Sync';
   static const String SETTING = 'Setting';
