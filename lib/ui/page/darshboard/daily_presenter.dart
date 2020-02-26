@@ -99,7 +99,7 @@ class DailyPresenter extends EventNotifier<DailyEvent> {
   }
 
   void onClickRight(BuildContext context) {
-    Map<String,dynamic> bundle = {FragmentArg.TASK_SHIPMENT_NO: currentShipment.no};
+    Map<String,dynamic> bundle = {FragmentArg.TASK_SHIPMENT_NO: currentShipment?.no};
     Navigator.pushReplacementNamed(context, PageName.inventory.toString(),arguments: bundle);
 
   }

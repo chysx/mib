@@ -106,7 +106,7 @@ class DailyPage extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(left: 4,top: 4),
                                 child: Text(
-                                  'Visited:${presenter.map[presenter.currentShipment.no].visitedCount}',
+                                  'Visited:${presenter.map[presenter.currentShipment?.no]?.visitedCount}',
                                   style: TextStyles.small,
                                 )
                             ),
@@ -118,7 +118,7 @@ class DailyPage extends StatelessWidget {
 
                             Center(child:
             Text(
-            '${presenter.map[presenter.currentShipment.no].getShowStr()}%',
+            '${presenter.map[presenter.currentShipment?.no]?.getShowStr()}%',
             style: TextStyle(fontSize: 24,color: Colors.red),
             ),),
 
@@ -138,7 +138,7 @@ class DailyPage extends StatelessWidget {
                               alignment: Alignment.centerRight,
                                 padding: EdgeInsets.only(right: 4,bottom: 4),
                                 child: Text(
-                                  'Plan Visited:${presenter.map[presenter.currentShipment.no].totalCount}',
+                                  'Plan Visited:${presenter.map[presenter.currentShipment?.no]?.totalCount}',
                                   style: TextStyles.small,
                                 )
                             ),
@@ -168,7 +168,7 @@ class DailyPage extends StatelessWidget {
                             Container(
                                 padding: EdgeInsets.only(left: 4,top: 4),
                                 child: Text(
-                                  'Delivered:${presenter.map[presenter.currentShipment.no].visitedCount}',
+                                  'Delivered:${presenter.map[presenter.currentShipment?.no]?.visitedCount}',
                                   style: TextStyles.small,
                                 )
                             ),
@@ -180,7 +180,7 @@ class DailyPage extends StatelessWidget {
 
                             Center(child:
                             Text(
-                              '${presenter.map[presenter.currentShipment.no].getShowStr()}%',
+                              '${presenter.map[presenter.currentShipment?.no]?.getShowStr()}%',
                               style: TextStyle(fontSize: 24,color: Colors.red),
                             ),),
 
@@ -200,7 +200,7 @@ class DailyPage extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 padding: EdgeInsets.only(right: 4,bottom: 4),
                                 child: Text(
-                                  'Plan Delivery:${presenter.map[presenter.currentShipment.no].totalCount}',
+                                  'Plan Delivery:${presenter.map[presenter.currentShipment?.no]?.totalCount}',
                                   style: TextStyles.small,
                                 )
                             ),

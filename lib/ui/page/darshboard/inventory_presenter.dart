@@ -124,8 +124,8 @@ class InventoryPresenter extends EventNotifier<InventoryEvent> {
 
 
   Future fillCheckOutData(Map<String,InventoryDetailInfo> hashMap) async {
-//    DSD_T_ShipmentHeader_Entity tShipmentHeader =
-//    await Application.database.tShipmentHeaderDao.findEntityByShipmentNo(shipmentNo, ActionType.CheckOut);
+    DSD_T_ShipmentHeader_Entity tShipmentHeader =
+    await Application.database.tShipmentHeaderDao.findEntityByShipmentNo(shipmentNo, ActionType.CheckOut);
 
     String sql = ''' 
       SELECT
@@ -146,9 +146,9 @@ class InventoryPresenter extends EventNotifier<InventoryEvent> {
             t1.productcode ASC
      ''';
 
-    SqlUtil.log(sql, [/*tShipmentHeader.Id*/'12878c60-43d0-11ea-b807-335b42570614']);
+    SqlUtil.log(sql, [tShipmentHeader.Id/*'12878c60-43d0-11ea-b807-335b42570614'*/]);
     var db = Application.database.database;
-    List<Map<String, dynamic>> list = await db.rawQuery(sql, [/*tShipmentHeader.Id*/'12878c60-43d0-11ea-b807-335b42570614']);
+    List<Map<String, dynamic>> list = await db.rawQuery(sql, [tShipmentHeader.Id/*'12878c60-43d0-11ea-b807-335b42570614'*/]);
     for (Map<String, dynamic> map in list) {
       List values = map.values.toList();
 
