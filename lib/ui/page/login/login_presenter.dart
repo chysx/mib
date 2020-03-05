@@ -1,7 +1,9 @@
 import 'package:mib/application.dart';
+import 'package:mib/common/dictionary.dart';
 import 'package:mib/db/manager/app_config_manager.dart';
 import 'package:mib/db/manager/app_log_manager.dart';
 import 'package:mib/db/table/entity/app_config_entity.dart';
+import 'package:mib/db/table/entity/dsd_t_daytimetracking_entity.dart';
 import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/exception/exception_type.dart';
 import 'package:mib/net/api_service.dart';
@@ -122,11 +124,25 @@ class LoginPresenter extends EventNotifier<LoginEvent> {
   }
 
   Future onClickCheckout(BuildContext context) async {
-    Map<String,dynamic> bundle = {};
-    await Navigator.pushNamed(context, PageName.check_out_shipment.toString(),arguments: bundle);
+    String nowDate = DateUtil.getDateStrByDateTime(DateTime.now(), format: DateFormat.YEAR_MONTH_DAY);
+    List<DSD_T_DayTimeTracking_Entity> list = [];
 
-//    Map<String,dynamic> bundle = {};
-//    await Navigator.pushNamed(context, PageName.start_of_day.toString(),arguments: bundle);
+    try{
+      list = await Application.database.dayTimeTrackDao
+          .findEntityByCondition(nowDate, Application.user.userCode, TimeTrackingType.SOD);
+    }catch(e) {
+      list = null;
+      print(e.toString());
+    }
+
+    if(list == null || list.length > 0){
+      Map<String,dynamic> bundle = {};
+      await Navigator.pushNamed(context, PageName.check_out_shipment.toString(),arguments: bundle);
+    }else {
+      Map<String,dynamic> bundle = {};
+      await Navigator.pushNamed(context, PageName.start_of_day.toString(),arguments: bundle);
+    }
+
 
   }
 

@@ -80,10 +80,13 @@ class _SingleChoiceState extends State<SingleChoiceWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 10,bottom: 10),
+        ),
         Row(
           children: <Widget>[
             getMust(widget.askEntity.MustToDo == MustToDo.TRUE),
-            Text(widget.index.toString() + '.' +widget.askEntity.Content,style: TextStyles.large,),
+            Expanded(child: Text(widget.index.toString() + '.' +widget.askEntity.Content,style: TextStyles.large,)),
           ],
         ),
 

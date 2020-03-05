@@ -92,4 +92,21 @@ class PriceManager {
       if (context != null) LoadingDialog.dismiss(context);
     }
   }
+
+  static Future start22({OnSuccess onSuccessSync, OnFail onFailSync, BuildContext context,List<BaseProductInfo> productList,String accountNumber}) async {
+//    HttpService().configDioByUrl('https://mibsfa.ebestmobile.net:9999');
+    if (context != null) LoadingDialog.show(context,msg: 'pricing...');
+    try{
+      Response<Map<String, dynamic>> reponse = await ApiService.getPriceCheck(createRequestTest());
+      response.PriceResponseBean result = response.PriceResponseBean.fromJson(reponse.data);
+      print(result.toJson());
+//      FileUtil.writeString(result.toJson());
+      onSuccessSync(result);
+    }catch(e) {
+      print(e.toString());
+      onFailSync(e);
+    }finally {
+      if (context != null) LoadingDialog.dismiss(context);
+    }
+  }
 }

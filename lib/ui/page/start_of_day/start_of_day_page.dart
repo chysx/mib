@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mib/res/dimens.dart';
 import 'package:mib/res/styles.dart';
 import 'package:mib/ui/page/start_of_day/start_of_day_presenter.dart';
-import 'package:mib/ui/widget/bool_choice_widget.dart';
 import 'package:mib/ui/widget/fold_widget.dart';
-import 'package:mib/ui/widget/single_choice_widget.dart';
 import 'package:mib/ui/widget/timer_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -16,19 +14,40 @@ import 'package:provider/provider.dart';
 ///  Email:        guopeng.zhang@ebestmobile.com)
 ///  Date:         2020-02-11 17:31
 
-class StartOfDayPage extends StatelessWidget {
+class StartOfDayPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _StartOfDayState();
+  }
 
 
+}
+
+class _StartOfDayState extends State<StartOfDayPage>{
+
+  TextEditingController controller = new TextEditingController();
+
+  void ctrlOdometer(StartOfDayPresenter presenter) {
+    if (controller == null) {
+      controller = new TextEditingController();
+      controller.addListener(() {
+        presenter.odometer = controller.text;
+      });
+    }
+
+    controller.text = presenter.odometer;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Start Of Day'),
+        title: Text('START OF DAY'),
       ),
       body: Consumer<StartOfDayPresenter>(
         builder: (context, presenter, _){
+          ctrlOdometer(presenter);
           return Column(
             children: <Widget>[
               Expanded(
@@ -37,9 +56,15 @@ class StartOfDayPage extends StatelessWidget {
                     children: <Widget>[
                       FoldWidget(
                         msg: 'VEHICLE CHECK',
-                        child: Column(
-                          children: presenter.widgetList,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 10,right: 10),
+                          child: Column(
+                            children: presenter.widgetList,
+                          ),
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
                       ),
                       FoldWidget(
                         msg: 'ADDITION INFO',
@@ -53,10 +78,10 @@ class StartOfDayPage extends StatelessWidget {
                                     flex: 1,
                                     child: Text('Start Time:',style: TextStyles.normal,),
                                   ),
-//                                  Expanded(
-//                                    flex: 1,
-//                                    child: TimerWidget(),
-//                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: TimerWidget(),
+                                  ),
                                 ],
                               ),
                               Padding(
@@ -136,17 +161,17 @@ class StartOfDayPage extends StatelessWidget {
                                     child: Text('Driver Sign:',style: TextStyles.normal,),
                                   ),
                                   Expanded(
-                                    flex: 2,
-                                    child: RaisedButton(
-                                      onPressed: () {
-                                        presenter.onClickSign(context);
-                                      },
-                                      child: Text(
-                                        'SIGN',
-                                        style: TextStyle(color: Colors.black, fontSize: Dimens.font_large),
-                                      ),
-                                      color: Colors.white,
-                                    )
+                                      flex: 2,
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          presenter.onClickSign(context);
+                                        },
+                                        child: Text(
+                                          'SIGN',
+                                          style: TextStyle(color: Colors.black, fontSize: Dimens.font_large),
+                                        ),
+                                        color: Colors.white,
+                                      )
                                   ),
                                   Expanded(
                                     flex: 1,

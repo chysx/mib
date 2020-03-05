@@ -39,6 +39,7 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
   List<Widget> widgetList = [];
   int shipmentCount = 0;
   int customerCount = 0;
+  String odometer;
 
   @override
   Future onEvent(StartOfDayEvent event, [dynamic data]) async {
@@ -95,6 +96,7 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
 
             resultMap[checkItemId.toString()] = [resultEntity];
           }));
+          totalAns += 2;
         } else if (askEntity.InputType == CheckType.SINGLESELECT) {
 
           widgetList.add(SingleChoiceWidget(askEntity,childList,index,totalAns,(info,totalIndex){
@@ -120,7 +122,11 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
               resultEntityList.add(resultEntity);
             }
 
-            resultMap[checkItemId.toString()] = resultEntityList;
+            if(resultEntityList.length == 0){
+              resultMap.remove(checkItemId.toString());
+            }else{
+              resultMap[checkItemId.toString()] = resultEntityList;
+            }
           }));
         }
         totalAns += childList.length;
@@ -135,7 +141,7 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
 
     String uuid = Uuid().v1();
 
-    createDayTimeEntity();
+    await createDayTimeEntity();
     dayTimeEntity.ID = uuid;
     dayTimeEntity.CreateTime = createTime;
     dayTimeEntity.Dirty = SyncDirtyStatus.DEFAULT;
@@ -165,7 +171,7 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
     dayTimeEntity.UserCode = Application.user.userCode;
     dayTimeEntity.TrackingType = TimeTrackingType.SOD;
     dayTimeEntity.TruckId = truckEntity.ID;
-//    dayTimeEntity.Odometer = 0;
+    dayTimeEntity.Odometer = int.tryParse(odometer?? '0');
 
   }
 
@@ -184,15 +190,21 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
   }
 
   Future<void> onClickStart(BuildContext context) async {
-    if(! await isPass()) return;
+    if(! await isPass(context)) return;
 
     await saveData();
     uploadData(context);
   }
 
-  Future<bool> isPass() async {
-    if(await isNotDoneMustToDo()) return false;
-    if(!isDoneSign()) return false;
+  Future<bool> isPass(BuildContext context) async {
+    if(await isNotDoneMustToDo()) {
+      CustomerDialog.show(context,msg: 'Please finish the mandatory items.');
+      return false;
+    }
+    if(!isDoneSign()) {
+      CustomerDialog.show(context,msg: 'Please click the SIGN and signature.');
+      return false;
+    }
     return true;
   }
 
@@ -204,7 +216,7 @@ class StartOfDayPresenter extends EventNotifier<StartOfDayEvent> {
       await Application.database.mCheckListDao.findEntityByParentId(rootTruckCheckAsk.Id.toString());
       for(DSD_M_TruckCheckList_Entity askEntity in list) {
         if(askEntity.MustToDo == MustToDo.TRUE){
-          if(!resultMap.keys.contains(askEntity.Id)){
+          if(!resultMap.keys.contains(askEntity.Id.toString())){
             return true;
           }
         }

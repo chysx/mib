@@ -34,7 +34,7 @@ class _MultiChoiceState extends State<MultiChoiceWidget> {
   Map<int,bool> hashMap = {};
 
   bool isSelected(DSD_M_TruckCheckList_Entity entity) {
-    return hashMap[entity.Id];
+    return hashMap[entity.Id] ?? false;
   }
 
   List<DSD_M_TruckCheckList_Entity> getSelectedTruckList() {
@@ -100,27 +100,30 @@ class _MultiChoiceState extends State<MultiChoiceWidget> {
     }).toList();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 10,bottom: 10),
+        ),
         Row(
           children: <Widget>[
             getMust(widget.askEntity.MustToDo == MustToDo.TRUE),
-            Text(widget.index.toString() + '.' +widget.askEntity.Content,style: TextStyles.large,),
+            Expanded(child: Text(widget.index.toString() + '.' +widget.askEntity.Content,style: TextStyles.large,)),
           ],
         ),
 
         Wrap(
           spacing: 20,
-          runSpacing: 20,
+          runSpacing: 2,
           children: getWidgetList(),
         ),
 
       ],
     );
   }
+
 
 }
