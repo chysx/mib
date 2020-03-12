@@ -1,4 +1,5 @@
 import 'package:mib/application.dart';
+import 'package:mib/log/log4dart.dart';
 
 /// Copyright  Shanghai eBest Information Technology Co. Ltd  2019
 ///  All rights reserved.
@@ -11,5 +12,6 @@ class SqlUtil {
   static void log(String sql,[List params]){
     String paramsStr = 'params = $params';
     Application.logger.i(sql + '\n' + paramsStr);
+//    LoggerSuper().info('SqlUtil', sql);
   }
 }
