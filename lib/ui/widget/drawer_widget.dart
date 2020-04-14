@@ -112,7 +112,7 @@ class DrawerWidget extends StatelessWidget {
     return DrawerHeader(
         padding: EdgeInsets.zero,
         child: Container(
-          color: Colors.blue,
+          color: Colors.grey,
           child: Stack(
             alignment: FractionalOffset.centerLeft,
             children: <Widget>[

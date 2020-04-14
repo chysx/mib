@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mib/common/constant.dart';
 import 'package:mib/event/EventNotifier.dart';
 import 'package:mib/model/check_out_and_in_model.dart';
@@ -54,7 +55,10 @@ class CheckInPresenter extends EventNotifier<CheckInEvent> {
   }
 
   Future onClickItem(BuildContext context,String shipmentNo) async {
-
+    if(isComplete()){
+      Fluttertoast.showToast(msg: 'You already complete the inventory');
+      return;
+    }
     Map<String,dynamic> bundle = {
       FragmentArg.ROUTE_SHIPMENT_NO: shipmentNo,
     };
